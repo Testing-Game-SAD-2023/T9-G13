@@ -1,5 +1,9 @@
-FROM alpine:3.4
 FROM python:3.9
+
+RUN apt update
+RUN apt install python3.9
+RUN pip install pandas
+
 FROM openjdk:11
 ARG MAVEN_VERSION=3.6.3
 ARG USER_HOME_DIR="/root"
@@ -24,9 +28,6 @@ WORKDIR .
 
 CMD ["mvn","--version"]
 
-RUN apt update
-RUN apt install python3.9
-RUN pip install pandas
 ADD main.py .
 ADD pom.xml .
 ADD randoop-all-4.3.2.jar .
