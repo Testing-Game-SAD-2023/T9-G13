@@ -1,6 +1,6 @@
 import os
 import sys
-import pandas as pd
+#import pandas as pd
 import random
 
 # IMPOSTARE CORRETTAMENTE I PATH AFFINCHè SIANO ASSOLUTI
@@ -13,7 +13,7 @@ test_dir = project_dir + "/src/test/java"  # directory dove vanno i test generat
 shared_dir = start_dir + "/shared_dir"  # directory condivisa
 class_path_base = shared_dir + "/" + lower_classname  # directory dove viene inserita la classe
 test_path_base = class_path_base + "/" + lower_classname + "_randoop"  # directory dove verranno salvate le cartelle di test
-
+#######
 
 def randoop(time_limit, nomeregr, nomeerr, seed):
     print("[DEBUG] TIME: " + str(time_limit) + " SEED: " + str(seed))
