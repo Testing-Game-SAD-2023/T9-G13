@@ -39,7 +39,7 @@ def runtest():
         nomeregr = "Regression"+ str(test_for_session)+"Test"
 
         package_name = "session_"+str(dir_num)
-        randoop(time, nomeregr, nomeerr, test_for_session * dir_num * random.randint(1, 100), package_name)
+        randoop(time, nomeregr, nomeerr, random.randint(1, 100), package_name)
         
         
         test_for_session = (test_for_session + 1) % max_test_for_session
@@ -74,7 +74,7 @@ def init_test():
 def clean_dir():
     os.system("cd " + project_dir+ " && mvn clean")
     os.system("rm -f"+ main_dir+"*.java")
-    os.system("rm -r"+ test_dir+"*")
+    os.system("rm -R"+ test_dir+"/*")
 
 def increment_time(time):
     # parametri da definire
