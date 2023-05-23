@@ -15,11 +15,12 @@ shared_dir = start_dir+"/shared_dir" # directory condivisa
 class_path_base = shared_dir + "/" + lower_classname # directory dove viene inserita la classe
 test_path_base = class_path_base + "/" + lower_classname +"_randoop" # directory dove verranno salvate le cartelle di test
 
-def randoop(time_limit, nomeregr, nomeerr, seed, package_name):
+def randoop(time_limit, nomeregr, nomeerr, seed):
+    print("[DEBUG] TIME: "+ str(time_limit) +" SEED: " + str(seed))
     os.system("cd " + project_dir+ " && mvn compile && java -classpath randoop-all-4.3.2.jar:./target/classes/ randoop.main.Main gentests --testclass=" +
         input_classname + " --time-limit=" + str(time_limit) + " --regression-test-basename=" + nomeregr +
         " --error-test-basename=" + nomeerr + " --randomseed=" + str(seed) + " --junit-output-dir=" + test_dir +
-        " --junit-package-name=" + package_name +" && mvn test")
+       " && mvn test")
 
 
 def runtest():
@@ -30,17 +31,17 @@ def runtest():
     coverage = 0
     old_coverage = 0
     max_test_for_session = 2
-    I_MAX = 10  # valutare il valore di questo parametro
+    I_MAX = 5  # valutare il valore di questo parametro
     DELTA = 0.05
     time = 5
-    while i < I_MAX:
+    newIteration = True
+    while newIteration:
             
-        nomeerr = "Error" + str(test_for_session) +"Test"
-        nomeregr = "Regression"+ str(test_for_session)+"Test"
+        nomeerr = "ErrorL" + str(dir_num)+"T"+str(test_for_session) +"Test"
+        nomeregr = "RegressionL" + str(dir_num)+"T"+str(test_for_session) +"Test"
 
-        package_name = "session_"+str(dir_num)
-        randoop(time, nomeregr, nomeerr, random.randint(1, 100), package_name)
-        
+        session_dir = "session"+str(dir_num)
+        randoop(time, nomeregr, nomeerr, random.randint(1, 100))
         
         test_for_session = (test_for_session + 1) % max_test_for_session
            
@@ -57,13 +58,18 @@ def runtest():
             i=0
         old_coverage=coverage
 
-        if test_for_session == 0:
+        newIteration = (coverage <= 0.95 ) and (i < I_MAX-1)
+         #se la copertura non è già del 95% e il numero di iterazioni non indica la saturazione, fermati
+
+        if test_for_session == 0 or (not newIteration):
             time = increment_time(time)
             saveTests(dir_num)
             dir_num = dir_num + 1
 
+
 def saveTests(dir_num):
-    os.system("cp -R "+ test_dir+"/session_"+str(dir_num)+" "+test_path_base+"/session_"+str(dir_num))
+    os.system("mkdir "+test_path_base+"/session_"+str(dir_num))
+    os.system("cp "+ test_dir+"/*L"+str(dir_num)+"* "+test_path_base+"/session_"+str(dir_num)+"/")
 
 
 def init_test():
@@ -73,8 +79,8 @@ def init_test():
 
 def clean_dir():
     os.system("cd " + project_dir+ " && mvn clean")
-    os.system("rm -f"+ main_dir+"*.java")
-    os.system("rm -R"+ test_dir+"/*")
+    os.system("rm "+ main_dir+"/*.java")
+    os.system("rm "+ test_dir+"/*")
 
 def increment_time(time):
     # parametri da definire
