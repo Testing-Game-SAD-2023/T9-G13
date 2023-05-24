@@ -29,7 +29,5 @@ WORKDIR .
 CMD ["mvn","--version"]
 
 ADD main.py .
-ADD pom.xml .
-ADD randoop-all-4.3.2.jar .
-ADD ./src .
+ADD ./project .
 CMD ["python3","./main.py"]
