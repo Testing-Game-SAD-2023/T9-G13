@@ -1,6 +1,6 @@
 import os
 import sys
-#import pandas as pd
+import pandas as pd
 import random
 
 # IMPOSTARE CORRETTAMENTE I PATH AFFINCHè SIANO ASSOLUTI
@@ -27,7 +27,7 @@ def randoop(time_limit, nomeregr, nomeerr, seed):
 def runtest():
     i = 0
     test_for_session = 0
-    dir_num = 1
+    dir_num = 0
     coverage = 0
     old_coverage = 0
     max_test_for_session = 2
@@ -63,8 +63,9 @@ def runtest():
 
         if test_for_session == 0 or (not newIteration):
             time = increment_time(time)
+			dir_num = dir_num + 1
             saveTests(dir_num)
-            dir_num = dir_num + 1
+            
 
 
 def saveTests(dir_num):
