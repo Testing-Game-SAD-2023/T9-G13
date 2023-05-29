@@ -13,9 +13,6 @@ RUN python3 get-pip.py
 RUN pip3 install --no-cache-dir pandas
 
 
-# Install Java
-RUN java -version
-
 # Install Maven
 ARG MAVEN_VERSION=3.6.3
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
