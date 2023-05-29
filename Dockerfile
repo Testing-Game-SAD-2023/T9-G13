@@ -1,33 +1,37 @@
-FROM python:3.9
+FROM ubuntu
 
-RUN apt update
-RUN apt install python3.9
-RUN pip install pandas
+# Install base pkgs
+RUN apt update \
+    && echo "y" | apt install default-jdk wget\
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-FROM openjdk:11
+
+#Install Python3.9
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python3 get-pip.py
+RUN pip3 install --no-cache-dir pandas
+
+
+# Install Java
+RUN java -version
+
+# Install Maven
 ARG MAVEN_VERSION=3.6.3
-ARG USER_HOME_DIR="/root"
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
+RUN wget ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+ && tar -xvf apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+ && mv apache-maven-${MAVEN_VERSION} /opt/ \
+ && rm -f apache-maven-${MAVEN_VERSION}.tar.gz
 
-# Install Java.
-# RUN apk --update --no-cache add openjdk11 curl
-
-RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
- && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
- && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
- && rm -f /tmp/apache-maven.tar.gz \
- && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-
-ENV MAVEN_HOME /usr/share/maven
-ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
-
-ENV JAVA_HOME /usr/lib/jvm/default-jvm/
+ENV MAVEN_HOME /opt/apache-maven-${MAVEN_VERSION}
+ENV PATH="$MAVEN_HOME/bin:$PATH"
 
 WORKDIR .
-
-CMD ["mvn","--version"]
+#CMD ["mvn","--version"]
 
 ADD main.py .
-ADD ./project .
-CMD ["python3","./main.py"]
+ADD ./project ./project
+#ADD ./shared_dir ./shared_dir
+CMD ["python3","main.py","VCardBean"]
