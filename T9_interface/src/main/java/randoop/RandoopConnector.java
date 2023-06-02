@@ -1,5 +1,7 @@
 package randoop;
 
+import exceptions.RandoopException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,21 +11,8 @@ public class RandoopConnector implements IRandoopConnector{
 
     private boolean isRunning = false;
 
-    /*private void startProcess(){
-        try {
-            Process p = Runtime.getRuntime().exec("chmod -+x startDocker.sh && ./startDocker.sh")
-            if(p.waitFor() != 0){
-                throw new Exception("Unable to start the process !!\n")
-            }
-            isRunning = true;
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-    };*/
-
     private void execRandoopTest(String className){
-       // Process p = Runtime.getRuntime().exec("chmod -+x execTests.sh && ./execTests.sh " + className)
+
         RandoopTestGenerator thread = new RandoopTestGenerator(className,this);
         thread.start();
     }
@@ -36,31 +25,19 @@ public class RandoopConnector implements IRandoopConnector{
 
     }
 
-    /*
-
-    public void stopProcess(){
-        try {
-            Process p = Runtime.getRuntime().exec("docker rm -f T9")
-            if(p.waitFor() != 0){
-                throw new Exception("Unable to stop process !!\n")
-            }
-            isRunning = false;
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-    };
-*/
-
-    public void generateRandoopTest(String className) throws Exception{
+    public void generateRandoopTest(String className) throws RandoopException{
         RandoopFilter f = new RandoopFilter(className);
         try{
             f.filter();
             //execScript(className);
-            execRandoopTest(className);
+           // execRandoopTest(className);
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void operationCompleted(int nSessions, String className){
+        //invia la notifica che hai completato a chi è in ascolto
     }
 
     public static void main(String[] args){

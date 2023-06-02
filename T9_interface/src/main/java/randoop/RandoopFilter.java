@@ -1,8 +1,8 @@
 package randoop;
 
+import exceptions.RandoopException;
 import java.io.File;
 public class RandoopFilter {
-
     private String className;
     private String class_file_path;
 
@@ -13,20 +13,21 @@ public class RandoopFilter {
         class_file_path = shared_dir_path + "/"+className.toLowerCase();
     }
 
-    private void checkClassName() throws Exception{
+    private void checkClassName() throws RandoopException{
         File f = new File(class_file_path);
         if(!f.isDirectory()){
-            throw new Exception("The directory for this class name doesn't exists");
+            throw new RandoopException("The directory for this class name doesn't exists");
         }
         f = new File(class_file_path + "/" + className + ".java");
         if(!f.exists()){
-            throw new Exception("The file for this class name doesn't exists");
+            throw new RandoopException("The file for this class name doesn't exists");
         }
     }
     private void checkClassCompile() throws Exception{
         Process p = Runtime.getRuntime().exec("javac " + class_file_path + "/" + className + ".java");
-        if(p.waitFor() != 0){
-            throw new Exception("Unable to compile the class !!\n");
+        //p.getErrorStream().transferTo(System.out);
+        if(p.waitFor() != 0){ //TODO
+            throw new RandoopException("Unable to compile the class !!\n");
         }
         p = Runtime.getRuntime().exec("rm -f " + class_file_path + "/" + className + ".class");
     }

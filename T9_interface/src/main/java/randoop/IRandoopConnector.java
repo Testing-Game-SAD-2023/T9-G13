@@ -1,6 +1,7 @@
 package randoop;
 
+import exceptions.RandoopException;
+
 public interface IRandoopConnector {
-    //public void stopProcess();
-    public void generateRandoopTest(String className) throws Exception;
+    public void generateRandoopTest(String className) throws RandoopException;
 }

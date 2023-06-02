@@ -7,7 +7,7 @@ import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 
-public class RandoopTestGenerator{
+public class RandoopTestGenerator extends Thread{
 
     private RandoopConnector randoopConnector;
     private String INPUT_CLASSNAME;
@@ -50,7 +50,7 @@ public class RandoopTestGenerator{
 
     }
 
-    private void runTest() throws IOException, InterruptedException {
+    private int runTest() throws IOException, InterruptedException {
         int i = 0;
         int testForSession = 0;
         int dirNum = 1;
@@ -99,6 +99,7 @@ public class RandoopTestGenerator{
                 dirNum++;
             }
         }
+        return dirNum-1;
     }
 
     private void saveTests(int dirNum) throws IOException {
@@ -107,12 +108,6 @@ public class RandoopTestGenerator{
         Files.createDirectory(sessionDirPath);
 
         String sourceDir = TEST_DIR;
-
-        /*
-        //FileFilter filter = new WildcardFileFilter("*L"+dirNum+"*");
-        FileFilter filter = FileFilterUtils.nameFileFilter("*L"+dirNum+"*");
-        FileUtils.copyDirectory(new java.io.File(sourceDir), new java.io.File(sessionDir),FileFilterUtils.nameFileFilter("*L"+dirNum+"*"), true);
-        */
 
         File dir = new File(TEST_DIR);
         File[] files = dir.listFiles((dir1, name) -> {
@@ -173,8 +168,10 @@ public class RandoopTestGenerator{
 
     public void randoopGenerate() throws Exception{
         initTest();
-        runTest();
+        int nSessions = runTest();
         cleanDir();
+        randoopConnector.operationCompleted(nSessions,INPUT_CLASSNAME);
+
     }
 
     public void start(){
@@ -189,4 +186,6 @@ public class RandoopTestGenerator{
         RandoopTestGenerator r = new RandoopTestGenerator("Calcolatrice", null);
         r.start();
     }
+
+
 }
