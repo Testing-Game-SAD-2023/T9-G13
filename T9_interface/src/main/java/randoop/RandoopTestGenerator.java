@@ -166,7 +166,7 @@ public class RandoopTestGenerator extends Thread{
         return time;
     }
 
-    public void randoopGenerate() throws Exception{
+    private void randoopGenerate() throws Exception{
         initTest();
         int nSessions = runTest();
         cleanDir();
@@ -181,11 +181,11 @@ public class RandoopTestGenerator extends Thread{
             e.printStackTrace();
         }
     }
-
+    /*
     public static void main(String args[]){
         RandoopTestGenerator r = new RandoopTestGenerator("Calcolatrice", null);
         r.start();
     }
-
+    */
 
 }
