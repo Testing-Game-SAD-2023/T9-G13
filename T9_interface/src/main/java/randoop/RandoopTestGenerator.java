@@ -15,7 +15,7 @@ public class RandoopTestGenerator extends Thread{
     private String CLASS_PATH_BASE;
     private String TEST_PATH_BASE;
 
-    private static final String START_DIR = "/Users/rosariaritacanale/git/T9-G13";
+    private static final String START_DIR = "/Users/rosariaritacanale/git/T9-G13"; //va modificata
     private static final String PROJECT_DIR = START_DIR + "/project";
     private static final String MAIN_DIR = PROJECT_DIR + "/src/main/java";
     private static final String TEST_DIR = PROJECT_DIR + "/src/test/java";
@@ -174,7 +174,8 @@ public class RandoopTestGenerator extends Thread{
 
     }
 
-    public void start(){
+    //vedi bene il nome del metodo da implemntare
+    public void run(){
         try {
             randoopGenerate();
         }catch (Exception e){

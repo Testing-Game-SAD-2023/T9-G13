@@ -1,32 +1,60 @@
 package randoop;
 
-import interfaces.IRandoopConnector;
+import interfaces.*;
 import exceptions.RandoopException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
+import java.util.*;
 
 public class RandoopConnector implements IRandoopConnector{
+    //singleton
+    private static RandoopConnector instance;
 
-    private boolean isRunning = false;
-    private int numberThreads = 0;
-    private Queue<String> requests = new Queue<String>(); //inzializza
+    //gestione dei threads in esecuzione
+    private static final int N_MAX = 10;
+    private int numberThreads ;
+    private Queue<String> requests;
 
-    private Dictionary<IObserver,String> observers;
+    //implmentazione DP Observer
+    private Dictionary<String,IObserver> observers;
 
+    //implementazione DP Singleton
+    protected RandoopConnector(){
+        requests = new LinkedList<String>();
+        observers = new Hashtable<String,IObserver>();
+        numberThreads=0;
 
-    public void attach(IObserver o, String className){
-        observers.add(o, className);
     }
 
+    public static RandoopConnector getInstance(){
+        if (instance == null) {
+            instance = new RandoopConnector();
+        }
+        return instance;
+    }
+
+    //
+    public void generateRandoopTest(String className, IObserver o) throws Exception{
+
+        RandoopFilter f = new RandoopFilter(className);
+        f.filter();
+
+        observers.put(className,o);
+        //execScript(className);
+        execRandoopTest(className);
+
+    }
+
+    //creazione e gestione Threads
     private void execRandoopTest(String className){
-        if(numberThreads <= N_MAX) {
+        if(numberThreads < N_MAX) {
             numberThreads++;
             RandoopTestGenerator thread = new RandoopTestGenerator(className, this);
             thread.start();
         }else{
+            //metti la richiesta in coda
             requests.add(className);
         }
     }
@@ -42,21 +70,11 @@ public class RandoopConnector implements IRandoopConnector{
     */
 
 
-    public void generateRandoopTest(String className) throws RandoopException{
-        RandoopFilter f = new RandoopFilter(className);
-        try{
-            f.filter();
-            //execScript(className);
-            execRandoopTest(className);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
     public void operationCompleted(int nSessions, String className){
         numberThreads--;
         //invia la notifica che hai completato a chi è in ascolto
-
+        observers.get(className).notifyCompleted(nSessions);
 
         //vedi se ci sono richieste in coda
         if(!requests.isEmpty()){
@@ -69,10 +87,12 @@ public class RandoopConnector implements IRandoopConnector{
     public static void main(String[] args){
         RandoopConnector r = new RandoopConnector();
         try {
-            r.generateRandoopTest("Calcolatrice");
+            r.generateRandoopTest("Calcolatrice", null);
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+
+
 
 }
