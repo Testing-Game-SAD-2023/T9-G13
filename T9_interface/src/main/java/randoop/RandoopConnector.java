@@ -42,7 +42,7 @@ public class RandoopConnector implements IRandoopConnector{
         f.filter();
 
         observers.put(className,o);
-        //execScript(className);
+       // execScript(className);
         execRandoopTest(className);
 
     }
@@ -59,18 +59,6 @@ public class RandoopConnector implements IRandoopConnector{
         }
     }
 
-    /*
-    private void execScript(String classname) throws Exception{
-        Process p = Runtime.getRuntime().exec("python3 /Users/rosariaritacanale/git/T9-G13/main.py "+classname);
-        p.getErrorStream().transferTo(System.out);
-        //p.getInputStream().transferTo(System.out);
-        p.waitFor();
-
-    }
-    */
-
-
-
     public void operationCompleted(int nSessions, String className){
         numberThreads--;
         //invia la notifica che hai completato a chi è in ascolto
@@ -83,16 +71,14 @@ public class RandoopConnector implements IRandoopConnector{
         }
 
     }
-
+/*
     public static void main(String[] args){
         RandoopConnector r = new RandoopConnector();
         try {
-            r.generateRandoopTest("Calcolatrice", null);
+            r.generateRandoopTest("Calcolatrice", new Observer());
         }catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-
+    }*/
 
 }

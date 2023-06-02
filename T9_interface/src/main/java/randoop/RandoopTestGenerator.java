@@ -182,11 +182,10 @@ public class RandoopTestGenerator extends Thread{
             e.printStackTrace();
         }
     }
-    /*
-    public static void main(String args[]){
+
+    /*public static void main(String args[]){
         RandoopTestGenerator r = new RandoopTestGenerator("Calcolatrice", null);
         r.start();
     }
-    */
-
+*/
 }
