@@ -2,6 +2,8 @@ package randoop;
 
 import exceptions.RandoopException;
 import java.io.File;
+import java.io.IOException;
+
 public class RandoopFilter {
     private String className;
     private String class_file_path;
@@ -23,7 +25,8 @@ public class RandoopFilter {
             throw new RandoopException("The file for this class name doesn't exists");
         }
     }
-    private void checkClassCompile() throws Exception{
+    private void checkClassCompile() throws RandoopException,IOException,InterruptedException {
+
         Process p = Runtime.getRuntime().exec("javac " + class_file_path + "/" + className + ".java");
         p.getErrorStream().transferTo(System.out);
         p.waitFor();
@@ -33,7 +36,7 @@ public class RandoopFilter {
         p = Runtime.getRuntime().exec("rm -f " + class_file_path + "/" + className + ".class");
     }
 
-    public void filter() throws Exception{
+    public void filter() throws RandoopException,IOException,InterruptedException{
         checkClassName();
         checkClassCompile();
     }

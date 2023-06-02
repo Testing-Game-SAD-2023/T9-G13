@@ -36,15 +36,15 @@ public class RandoopConnector implements IRandoopConnector{
     }
 
     //
-    public void generateRandoopTest(String className, IObserver o) throws Exception{
-
-        RandoopFilter f = new RandoopFilter(className);
-        f.filter();
-
-        observers.put(className,o);
-       // execScript(className);
-        execRandoopTest(className);
-
+    public void generateRandoopTest(String className, IObserver o) throws RandoopException{
+        try {
+            RandoopFilter f = new RandoopFilter(className);
+            f.filter();
+            observers.put(className, o);
+            execRandoopTest(className);
+        }catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     //creazione e gestione Threads
@@ -67,7 +67,6 @@ public class RandoopConnector implements IRandoopConnector{
         //vedi se ci sono richieste in coda
         if(!requests.isEmpty()){
             execRandoopTest(requests.remove());
-
         }
 
     }
