@@ -1,5 +1,6 @@
 package randoop;
 
+import exceptions.RandoopException;
 import interfaces.IObserver;
 import interfaces.IRandoopConnector;
 
@@ -15,7 +16,7 @@ public class Observer implements IObserver {
         try {
             instance.generateRandoopTest("Calcolatrice", ob) ;
             System.out.println("Ciao");
-        }catch (Exception e){
+        }catch (RandoopException e){
             e.printStackTrace();
         }
 
