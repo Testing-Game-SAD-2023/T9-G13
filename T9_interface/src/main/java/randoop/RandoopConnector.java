@@ -31,6 +31,7 @@ public class RandoopConnector implements IRandoopConnector{
     private void execScript(String classname) throws Exception{
         Process p = Runtime.getRuntime().exec("python3 /Users/rosariaritacanale/git/T9-G13/main.py "+classname);
         p.getErrorStream().transferTo(System.out);
+        //p.getInputStream().transferTo(System.out);
         p.waitFor();
 
     }

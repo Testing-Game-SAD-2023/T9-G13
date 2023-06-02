@@ -7,7 +7,7 @@ import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 
-public class RandoopTestGenerator extends Thread{
+public class RandoopTestGenerator{
 
     private RandoopConnector randoopConnector;
     private String INPUT_CLASSNAME;
@@ -15,7 +15,7 @@ public class RandoopTestGenerator extends Thread{
     private String CLASS_PATH_BASE;
     private String TEST_PATH_BASE;
 
-    private static final String START_DIR = "/Users/rosariaritacanale/Downloads";
+    private static final String START_DIR = "/Users/rosariaritacanale/git/T9-G13";
     private static final String PROJECT_DIR = START_DIR + "/project";
     private static final String MAIN_DIR = PROJECT_DIR + "/src/main/java";
     private static final String TEST_DIR = PROJECT_DIR + "/src/test/java";
@@ -32,7 +32,7 @@ public class RandoopTestGenerator extends Thread{
     private void randoop(int timeLimit, String nomeRegr, String nomeErr, int seed) throws IOException, InterruptedException {
         //System.out.println("[DEBUG] TIME: " + timeLimit + " SEED: " + seed);
         //SE VA SU WINDOWS NECESSARIO MODIFICARE SEPARATORE DEL CLASSPATH
-        String command = "cd " + PROJECT_DIR + " && mvn compile && java -classpath randoop-all-4.3.2.jar:./target/classes/ randoop.main.Main gentests"
+        String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath randoop-all-4.3.2.jar:./target/classes/ randoop.main.Main gentests"
                 + " --testclass=" + INPUT_CLASSNAME
                 + " --time-limit=" + timeLimit
                 + " --regression-test-basename=" + nomeRegr
@@ -40,8 +40,12 @@ public class RandoopTestGenerator extends Thread{
                 + " --randomseed=" + seed
                 + " --junit-output-dir=" + TEST_DIR
                 + " && mvn test";
-        Process process = Runtime.getRuntime().exec(command);
+
+
+        String[] commands = {"/bin/bash", "-c", cmd};
+        Process process = Runtime.getRuntime().exec(commands);
         process.getErrorStream().transferTo(System.out);
+        //process.getInputStream().transferTo(System.out);
         process.waitFor();
 
     }
@@ -49,7 +53,7 @@ public class RandoopTestGenerator extends Thread{
     private void runTest() throws IOException, InterruptedException {
         int i = 0;
         int testForSession = 0;
-        int dirNum = 0;
+        int dirNum = 1;
         double coverage = 0;
         double oldCoverage = 0;
         int maxTestForSession = 2;
@@ -77,8 +81,8 @@ public class RandoopTestGenerator extends Thread{
             {
                 result = line.split(splitBy);    // use comma as separator
             }
-            inst_missed = Integer.parseInt(result[0]);
-            inst_covered = Integer.parseInt(result[1]);
+            inst_missed = Integer.parseInt(result[3]);
+            inst_covered = Integer.parseInt(result[4]);
             coverage = (double) inst_covered/ (inst_missed + inst_covered);
             if (Math.abs(oldCoverage - coverage) <= DELTA) {
                 i++;
@@ -91,8 +95,8 @@ public class RandoopTestGenerator extends Thread{
 
             if (testForSession == 0 || !newIteration) {
                 time = incrementTime(time);
-                dirNum++;
                 saveTests(dirNum);
+                dirNum++;
             }
         }
     }
@@ -132,6 +136,7 @@ public class RandoopTestGenerator extends Thread{
         String cleanCommand = "cd " + PROJECT_DIR + " && mvn clean";
         try {
             Process process = Runtime.getRuntime().exec(cleanCommand);
+            process.getErrorStream().transferTo(System.out);
             process.waitFor();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -147,8 +152,8 @@ public class RandoopTestGenerator extends Thread{
             e.printStackTrace();
         }
 
-        String mainJavaFilesPattern = MAIN_DIR + "/*.java";
-        String testJavaFilesPattern = TEST_DIR + "/*";
+        String mainJavaFilesPattern = MAIN_DIR + "/";
+        String testJavaFilesPattern = TEST_DIR + "/";
 
         //cancella i file corretti?
         FileUtils.cleanDirectory(new File(mainJavaFilesPattern));
@@ -180,4 +185,8 @@ public class RandoopTestGenerator extends Thread{
         }
     }
 
+    public static void main(String args[]){
+        RandoopTestGenerator r = new RandoopTestGenerator("Calcolatrice", null);
+        r.start();
+    }
 }
