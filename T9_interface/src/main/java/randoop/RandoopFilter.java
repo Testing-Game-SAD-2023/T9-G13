@@ -18,11 +18,11 @@ public class RandoopFilter {
     private void checkClassName() throws RandoopException{
         File f = new File(class_file_path);
         if(!f.isDirectory()){
-            throw new RandoopException("The directory: "+class_file_path+" for this class name doesn't exists",1);
+            throw new RandoopException("The directory: "+class_file_path+" for this class name doesn't exists",RandoopException.DIR_ERROR);
         }
         f = new File(class_file_path + "/" + className + ".java");
         if(!f.exists()){
-            throw new RandoopException("The file for this class name doesn't exists",2);
+            throw new RandoopException("The file for this class name doesn't exists",RandoopException.CLASS_NOT_FOUND);
         }
     }
     private void checkClassCompile() throws RandoopException,IOException,InterruptedException {
@@ -31,7 +31,7 @@ public class RandoopFilter {
         p.getErrorStream().transferTo(System.out);
         p.waitFor();
         if(p.exitValue() != 0){ //TODO
-            throw new RandoopException("Unable to compile the class !!\n",3);
+            throw new RandoopException("Unable to compile the class !!\n",RandoopException.CLASS_NO_COMPILE);
         }
         p = Runtime.getRuntime().exec("rm -f " + class_file_path + "/" + className + ".class");
     }

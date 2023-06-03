@@ -2,10 +2,10 @@ package exceptions;
 
 public class RandoopException extends Exception{
 
+    public static final int DIR_ERROR = 1;
+    public static final int CLASS_NOT_FOUND = 2;
+    public static final int CLASS_NO_COMPILE = 3;
     private int ERROR_TYPE;
-    //1: directory does not exist
-    //2: class is not in directory
-    //3: unable to compile class
     public RandoopException(String message, int error_type){
         super("[RANDOOP EXCEPTION]: "+message);
         this.ERROR_TYPE =error_type;
