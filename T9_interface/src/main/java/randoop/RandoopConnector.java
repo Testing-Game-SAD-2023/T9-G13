@@ -64,7 +64,7 @@ public class RandoopConnector implements IRandoopConnector{
         numberThreads--;
         //invia la notifica che hai completato a chi è in ascolto
         observers.get(className).notifyCompleted(nSessions);
-
+        observers.remove(className);
 
         //vedi se ci sono richieste in coda
         if(!requests.isEmpty()){
