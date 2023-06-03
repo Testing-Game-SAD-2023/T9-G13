@@ -10,21 +10,26 @@ import org.apache.commons.io.FileUtils;
 public class RandoopTestGenerator extends Thread{
 
     private RandoopConnector randoopConnector;
-    private String INPUT_CLASSNAME;
-    private String LOWER_CLASSNAME;
-    private String CLASS_PATH_BASE;
-    private String TEST_PATH_BASE;
-
     private static final String START_DIR = "/Users/rosariaritacanale/git/T9-G13"; //va modificata
-    private static final String PROJECT_DIR = START_DIR + "/project";
-    private static final String MAIN_DIR = PROJECT_DIR + "/src/main/java";
-    private static final String TEST_DIR = PROJECT_DIR + "/src/test/java";
     private static final String SHARED_DIR = START_DIR + "/shared_dir";
+    private final String INPUT_CLASSNAME;
+    private final String LOWER_CLASSNAME;
+    private final String CLASS_PATH_BASE;
+    private final String TEST_PATH_BASE;
+    private final String PROJECT_DIR;
+    private final String MAIN_DIR;
+    private final String TEST_DIR;
+    private int threadIndex;
 
-    public RandoopTestGenerator(String className, RandoopConnector randoopConnector){
+
+    public RandoopTestGenerator(String className, RandoopConnector randoopConnector, int threadIndex){
         this.randoopConnector = randoopConnector;
+        this.threadIndex = threadIndex;
         INPUT_CLASSNAME = className;
         LOWER_CLASSNAME = className.toLowerCase();
+        PROJECT_DIR = START_DIR + "/projects/project_"+threadIndex;
+        MAIN_DIR = PROJECT_DIR + "/src/main/java";
+        TEST_DIR = PROJECT_DIR + "/src/test/java";
         CLASS_PATH_BASE = SHARED_DIR + "/" + LOWER_CLASSNAME;
         TEST_PATH_BASE = CLASS_PATH_BASE + "/" + LOWER_CLASSNAME + "_randoop";
     }
@@ -32,7 +37,7 @@ public class RandoopTestGenerator extends Thread{
     private void randoop(int timeLimit, String nomeRegr, String nomeErr, int seed) throws IOException, InterruptedException {
         //System.out.println("[DEBUG] TIME: " + timeLimit + " SEED: " + seed);
         //SE VA SU WINDOWS NECESSARIO MODIFICARE SEPARATORE DEL CLASSPATH
-        String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath randoop-all-4.3.2.jar:./target/classes/ randoop.main.Main gentests"
+        String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath ../randoop-all-4.3.2.jar:./target/classes/ randoop.main.Main gentests"
                 + " --testclass=" + INPUT_CLASSNAME
                 + " --time-limit=" + timeLimit
                 + " --regression-test-basename=" + nomeRegr
@@ -99,6 +104,7 @@ public class RandoopTestGenerator extends Thread{
                 dirNum++;
             }
         }
+
         return dirNum-1;
     }
 
@@ -170,7 +176,7 @@ public class RandoopTestGenerator extends Thread{
         initTest();
         int nSessions = runTest();
         cleanDir();
-        randoopConnector.operationCompleted(nSessions,INPUT_CLASSNAME);
+        randoopConnector.operationCompleted(nSessions,INPUT_CLASSNAME,threadIndex);
 
     }
 
@@ -182,9 +188,9 @@ public class RandoopTestGenerator extends Thread{
             e.printStackTrace();
         }
     }
-
-    /*public static void main(String args[]){
-        RandoopTestGenerator r = new RandoopTestGenerator("Calcolatrice", null);
+/*
+    public static void main(String args[]){
+        RandoopTestGenerator r = new RandoopTestGenerator("VCardBean", null);
         r.start();
     }
 */

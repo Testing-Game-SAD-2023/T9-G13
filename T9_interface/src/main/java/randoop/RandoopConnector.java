@@ -51,7 +51,7 @@ public class RandoopConnector implements IRandoopConnector{
     private void execRandoopTest(String className){
         if(numberThreads < N_MAX) {
             numberThreads++;
-            RandoopTestGenerator thread = new RandoopTestGenerator(className, this);
+            RandoopTestGenerator thread = new RandoopTestGenerator(className, this, numberThreads);
             thread.start();
         }else{
             //metti la richiesta in coda
@@ -59,10 +59,12 @@ public class RandoopConnector implements IRandoopConnector{
         }
     }
 
-    public void operationCompleted(int nSessions, String className){
+    public void operationCompleted(int nSessions, String className, int threadIndex){
+        System.out.println("[RANDOOP CONNECTOR] generation for class "+className+" completed by thread n"+threadIndex);
         numberThreads--;
         //invia la notifica che hai completato a chi è in ascolto
         observers.get(className).notifyCompleted(nSessions);
+
 
         //vedi se ci sono richieste in coda
         if(!requests.isEmpty()){
