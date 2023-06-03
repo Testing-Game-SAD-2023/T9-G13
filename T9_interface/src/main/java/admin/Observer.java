@@ -1,8 +1,9 @@
-package randoop;
+package admin;
 
 import exceptions.RandoopException;
 import interfaces.IObserver;
 import interfaces.IRandoopConnector;
+import randoop.RandoopConnector;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
