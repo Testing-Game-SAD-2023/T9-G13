@@ -10,7 +10,7 @@ import org.apache.commons.io.FileUtils;
 public class RandoopTestGenerator extends Thread{
 
     private RandoopConnector randoopConnector;
-    private static final String START_DIR = "/Users/rosariaritacanale/git/T9-G13"; //va modificata
+    private static final String START_DIR = "/home/tesi-step/Desktop/git/T9-G13"; //va modificata
     private static final String SHARED_DIR = START_DIR + "/shared_dir";
     private final String INPUT_CLASSNAME;
     private final String LOWER_CLASSNAME;
@@ -133,8 +133,9 @@ public class RandoopTestGenerator extends Thread{
         Path randoopPath = Paths.get(randoopDir);
         if(Files.notExists(randoopPath))
             Files.createDirectory(randoopPath);
+	
+        String cleanCommand = "/bin/bash "+ "-c "+"cd " + PROJECT_DIR + " && mvn clean";
 
-        String cleanCommand = "cd " + PROJECT_DIR + " && mvn clean";
         try {
             Process process = Runtime.getRuntime().exec(cleanCommand);
             process.getErrorStream().transferTo(System.out);
@@ -145,7 +146,7 @@ public class RandoopTestGenerator extends Thread{
     }
 
     private void cleanDir() throws IOException {
-        String cleanCommand = "cd " + PROJECT_DIR + " && mvn clean";
+        String cleanCommand = "/bin/bash "+ "-c "+"cd " + PROJECT_DIR + " && mvn clean";
         try {
             Process process = Runtime.getRuntime().exec(cleanCommand);
             process.waitFor();
@@ -155,10 +156,13 @@ public class RandoopTestGenerator extends Thread{
 
         String mainJavaFilesPattern = MAIN_DIR + "/";
         String testJavaFilesPattern = TEST_DIR + "/";
+        String targetJavaFilesPattern = PROJECT_DIR + "/target/";//aggiunta
 
         //cancella i file corretti?
+        
         FileUtils.cleanDirectory(new File(mainJavaFilesPattern));
         FileUtils.cleanDirectory(new File(testJavaFilesPattern));
+        FileUtils.cleanDirectory(new File(targetJavaFilesPattern)); //aggiunta
     }
 
     private int incrementTime(int time) {

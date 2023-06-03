@@ -14,7 +14,7 @@ public class Observer implements IObserver {
     public void notifyCompleted (int numberSession){
         System.out.println("[OBSERVER]: "+ numberSession +" test sessions generated");
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/rosariaritacanale/git/T9-G13/output.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("/home/tesi-step/Desktop/git/T9-G13/output.txt"));
             writer.write("number of sessions: "+numberSession);
             writer.close();
         } catch (IOException e) {

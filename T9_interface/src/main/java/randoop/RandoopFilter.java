@@ -8,7 +8,7 @@ public class RandoopFilter {
     private String className;
     private String class_file_path;
 
-    private static final String shared_dir_path = "/Users/rosariaritacanale/git/T9-G13/shared_dir";
+    private static final String shared_dir_path = "/home/tesi-step/Desktop/git/T9-G13/shared_dir";
 
     public RandoopFilter(String className){
         this.className = className;
