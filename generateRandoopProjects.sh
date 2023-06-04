@@ -4,6 +4,8 @@ echo "Creazione automatica di un progetto Maven"
 
 echo "------------------------------------------------"
 
+cd projects &&
+
 for i in $(seq $1)
 do
     #contiene già Junit ma con una versione errata
@@ -74,6 +76,9 @@ if [[ -f $pom_file ]]; then
 else
     echo "Errore: Il file pom.xml non è stato trovato."
 fi
+
+cd ..
+
 echo "------------------------------------------------"
 
 done
