@@ -77,8 +77,8 @@ else
     echo "Errore: Il file pom.xml non è stato trovato."
 fi
 
-cd ..
-
 echo "------------------------------------------------"
 
 done
+
+cd ..
