@@ -59,7 +59,7 @@ public class RandoopConnector implements IRandoopConnector{
         }
     }
 
-    public void operationCompleted(int nSessions, String className, int threadIndex){
+    public synchronized void operationCompleted(int nSessions, String className, int threadIndex){
         System.out.println("[RANDOOP CONNECTOR] generation for class "+className+" completed by thread n"+threadIndex);
         numberThreads--;
         //invia la notifica che hai completato a chi è in ascolto
