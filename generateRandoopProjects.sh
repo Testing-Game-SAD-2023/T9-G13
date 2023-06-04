@@ -9,7 +9,7 @@ do
     #contiene già Junit ma con una versione errata
     mvn archetype:generate \
     -DgroupId=org.example \
-    -DartifactId=T9_$i \
+    -DartifactId=project_$i \
     -Dversion=1.0-SNAPSHOT \
     -Dpackage=randoop \
     -DarchetypeArtifactId=maven-archetype-quickstart \
@@ -18,7 +18,7 @@ do
 echo "Progetto creato correttamente!"
 
 # Aggiunta delle dipendenze e del plugin nel file pom.xml
-pom_file="T9_$i/pom.xml"
+pom_file="project_$i/pom.xml"
 
 if [[ -f $pom_file ]]; then
     #cambio versione di junit
@@ -68,7 +68,7 @@ if [[ -f $pom_file ]]; then
         <\/plugins>\
     ' $pom_file &&
 
-    rm -rf T9_$i/pom.xml-e
+    rm -rf project_$i/pom.xml-e
 
     echo "plugin di jacoco aggiunto correttamente."
 else
@@ -77,4 +77,3 @@ fi
 echo "------------------------------------------------"
 
 done
-
