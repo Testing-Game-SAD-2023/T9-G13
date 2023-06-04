@@ -2,14 +2,13 @@
 
 echo "Creazione automatica di un progetto Maven"
 
-#read -p "Inserisci l'identificatore di gruppo (Group Id): " groupId
-#read -p "Inserisci l'identificatore dell'artefatto (Artifact Id): " artifactId
-#read -p "Inserisci la versione del progetto: " version
-#read -p "Inserisci il nome del pacchetto: " package
+echo "------------------------------------------------"
 
-mvn archetype:generate \
+for i in $(seq 4)
+do
+    mvn archetype:generate \
     -DgroupId=org.example \
-    -DartifactId=T9 \
+    -DartifactId=T9_$i \
     -Dversion=1.0-SNAPSHOT \
     -Dpackage=randoop \
     -DarchetypeArtifactId=maven-archetype-quickstart \
@@ -18,7 +17,7 @@ mvn archetype:generate \
 echo "Progetto creato correttamente!"
 
 # Aggiunta delle dipendenze e del plugin nel file pom.xml
-pom_file="T9/pom.xml"
+pom_file="T9_$i/pom.xml"
 
 # TODO: ITERARE PER 4 e cambiare nome ad ognuno
 
@@ -68,9 +67,15 @@ if [[ -f $pom_file ]]; then
             <\/executions>\
         <\/plugin>\
         <\/plugins>\
-    ' $pom_file
+    ' $pom_file &&
+
+    rm -rf T9_$i/pom.xml-e
 
     echo "plugin di jacoco aggiunto correttamente."
 else
     echo "Errore: Il file pom.xml non è stato trovato."
 fi
+echo "------------------------------------------------"
+
+done
+
