@@ -4,8 +4,9 @@ echo "Creazione automatica di un progetto Maven"
 
 echo "------------------------------------------------"
 
-for i in $(seq 4)
+for i in $(seq $1)
 do
+    #contiene già Junit ma con una versione errata
     mvn archetype:generate \
     -DgroupId=org.example \
     -DartifactId=T9_$i \
@@ -19,13 +20,11 @@ echo "Progetto creato correttamente!"
 # Aggiunta delle dipendenze e del plugin nel file pom.xml
 pom_file="T9_$i/pom.xml"
 
-# TODO: ITERARE PER 4 e cambiare nome ad ognuno
-
 if [[ -f $pom_file ]]; then
     #cambio versione di junit
     sed -i -e 's/3.8.1/4.12.3/g' $pom_file
 
-    echo "Dipendenze di jacoco aggiunti correttamente."
+    echo "Aggiunto JUnit correttamente."
 
     sed -i -e '/<\/project>/i\
         <build>\
