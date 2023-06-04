@@ -24,7 +24,7 @@ pom_file="project_$i/pom.xml"
 
 if [[ -f $pom_file ]]; then
     #cambio versione di junit
-    sed -i -e 's/3.8.1/4.12.3/g' $pom_file
+    sed -i -e 's/3.8.1/4.13.2/g' $pom_file
 
     echo "Aggiunto JUnit correttamente."
 
