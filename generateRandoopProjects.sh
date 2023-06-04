@@ -4,6 +4,8 @@ echo "Creazione automatica di un progetto Maven"
 
 echo "------------------------------------------------"
 
+cd projects &&
+
 for i in $(seq $1)
 do
     #contiene già Junit ma con una versione errata
@@ -21,8 +23,15 @@ echo "Progetto creato correttamente!"
 pom_file="project_$i/pom.xml"
 
 if [[ -f $pom_file ]]; then
+
+    sed -i -e '/<\dependencies>/i\
+        <properties>\
+            <maven.compiler.source>11</maven.compiler.source>\
+            <maven.compiler.target>11</maven.compiler.target>\
+        </properties>' $pom_file
+
     #cambio versione di junit
-    sed -i -e 's/3.8.1/4.12.3/g' $pom_file
+    sed -i -e 's/3.8.1/4.13.2/g' $pom_file
 
     echo "Aggiunto JUnit correttamente."
 
@@ -74,6 +83,9 @@ if [[ -f $pom_file ]]; then
 else
     echo "Errore: Il file pom.xml non è stato trovato."
 fi
+
 echo "------------------------------------------------"
 
 done
+
+cd ..
