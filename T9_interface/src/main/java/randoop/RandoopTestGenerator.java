@@ -16,7 +16,7 @@ public class RandoopTestGenerator extends Thread{
     private final String TEST_DIR;
     private int maxNumberLevel;
     private int threadIndex;
-    private RandoopFileManager fileManager;
+    //private RandoopFileManager fileManager;
 
     private int testExceeded;
 
@@ -27,7 +27,7 @@ public class RandoopTestGenerator extends Thread{
         INPUT_CLASSNAME = className;
         PROJECT_DIR = START_DIR + "/projects/project_"+threadIndex;
         TEST_DIR = PROJECT_DIR + "/src/test/java";
-        this.fileManager = new RandoopFileManager(START_DIR, className, threadIndex);
+        //this.fileManager = new RandoopFileManager(START_DIR, className, threadIndex);
 
         testExceeded=0;
     }
@@ -53,7 +53,7 @@ public class RandoopTestGenerator extends Thread{
 
     }
 
-    private int runTest() throws IOException, InterruptedException {
+    private int runTest(RandoopFileManager fileManager) throws IOException, InterruptedException {
         int i = 0;
         int testForSession = 0;
         int dirNum = 1;
@@ -144,9 +144,10 @@ public class RandoopTestGenerator extends Thread{
     //metodo chiamato dal thread 
     public void run(){
         try {
+            RandoopFileManager fileManager = new RandoopFileManager(START_DIR, INPUT_CLASSNAME, threadIndex);
             fileManager.initTest();
-            int nLevel = runTest();
-            if(nLevel>maxNumberLevel){
+            int nLevel = runTest(fileManager);
+            if(testExceeded!=0){ //la funzione selectTest viene chiamata solo sono sttai generati test in eccesso
                 fileManager.selectTest(maxNumberLevel,testExceeded);
             }
             fileManager.cleanDir();

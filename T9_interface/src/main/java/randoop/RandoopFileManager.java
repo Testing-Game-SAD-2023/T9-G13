@@ -13,7 +13,6 @@ public class RandoopFileManager {
     private String START_DIR;
     private String REPOSITORY;
     private final String INPUT_CLASSNAME;
-    private final String LOWER_CLASSNAME;
     private final String CLASS_PATH_BASE;
     private final String TEST_PATH_BASE;
     private final String PROJECT_DIR;
@@ -24,7 +23,6 @@ public class RandoopFileManager {
         this.START_DIR = START_DIR;
         this.REPOSITORY= START_DIR + "/repository";
         INPUT_CLASSNAME = className;
-        LOWER_CLASSNAME = className.toLowerCase();
         PROJECT_DIR = START_DIR + "/projects/project_"+threadIndex;
         MAIN_DIR = PROJECT_DIR + "/src/main/java";
         TEST_DIR = PROJECT_DIR + "/src/test/java";
@@ -33,11 +31,15 @@ public class RandoopFileManager {
     }
 
     private void copyWithPattern(String src, String dst,String pattern)throws IOException{
+
         File dir = new File(src);
+
         File[] files = dir.listFiles((dir1, name) -> {
             return name.contains(pattern);
         });
-        for(File f : files) {
+
+
+        for(File f : files) {    
             FileUtils.copyFileToDirectory(f, new java.io.File(dst));
         }
     }
@@ -84,12 +86,15 @@ public class RandoopFileManager {
         }
     }
     
+
+
     public void selectTest(int nMaxTest, int testExceeded) throws IOException{
 
-        int ampiezzaIntervallo = testExceeded/nMaxTest;
+        int ampiezzaIntervallo = Integer.max(testExceeded/nMaxTest,1);
         int testToSave=2;
-        Random rand = new Random();
-        String dirName = ((nMaxTest <10) ? "0"+nMaxTest : Integer.toString(nMaxTest))+"Level";
+        Random rand;
+        int dest_index = nMaxTest+1;
+        String dirName = ((dest_index <10) ? "0"+dest_index : Integer.toString(dest_index))+"Level";
         String src = TEST_PATH_BASE + "/"+dirName+"/TestSourceCode";
         String dest;
         /*
@@ -100,27 +105,20 @@ public class RandoopFileManager {
         for(int i=0 ; i < nMaxTest-1 ; i++){
            //k=2 numero randomico tra i*ampiezza_intervallo e (i+1)*ampiezza_intervallo-1
             for(int j=0 ; j < testToSave ; j++){
+                rand = new Random();
                 selectedTest=i*ampiezzaIntervallo+rand.nextInt(ampiezzaIntervallo);
                 for(int k=nMaxTest; k > i ; k--){
                     dirName =  ((k <10) ? "0"+k : Integer.toString(k))+"Level";
                     dest = TEST_PATH_BASE + "/"+dirName+"/TestSourceCode";
                     copyWithPattern(src, dest, "T"+selectedTest+"Test");
+                    
                 }
             }
         }
-        //eliminiamo la cartella in più
-        //FileUtils.cleanDirectory(new File(src));
+        //eliminiamo la cartella in eccesso
         FileUtils.deleteDirectory(new File(src));
 
 
-
-                /*
-                 * nTest -> numero di test in cartella nMaxTest
-                 * suddividere i test in nTest/nLevelGenerated sessioni
-                 *   per ogni sessione scegliamo un numero di test da prelvare e lo facciamo in modo casuale
-                 *      ....
-                 * 
-                 */
     } 
     
     //svuota la cartella del progetto utilizzato per un futuro utilizzo
@@ -142,5 +140,7 @@ public class RandoopFileManager {
         FileUtils.cleanDirectory(new File(testJavaFilesPattern));
         FileUtils.cleanDirectory(new File(targetJavaFilesPattern));
     }
+
+
 
 }
