@@ -70,8 +70,13 @@ public class RandoopTestGenerator extends Thread{
             //String sessionDir = "session" + dirNum;
             randoop(time, nomeRegr, nomeErr, new Random().nextInt(100) + 1);
 
-            testForSession = (testForSession + 1) % maxTestForSession;
+            if(dirNum <= maxNumberLevel) {
+                testForSession = (testForSession + 1) % maxTestForSession;
+            }else{
+                testForSession+=1;
+            }
 
+            //calcolo della copertura
             String line = "";
             String splitBy = ",";
             String csvFilePath = PROJECT_DIR + "/target/my-reports/jacoco.csv";
@@ -83,6 +88,9 @@ public class RandoopTestGenerator extends Thread{
             inst_missed = Integer.parseInt(result[3]);
             inst_covered = Integer.parseInt(result[4]);
             coverage = (double) inst_covered/ (inst_missed + inst_covered);
+            //fine calcolo copertura
+
+            //valutazione saturazione
             if (Math.abs(oldCoverage - coverage) <= DELTA) {
                 i++;
             } else {
@@ -90,17 +98,18 @@ public class RandoopTestGenerator extends Thread{
             }
             oldCoverage = coverage;
 
-            newIteration = (coverage <= 0.95) && (i < I_MAX - 1) && (dirNum<= maxNumberLevel);
+            newIteration = (coverage <= 0.95) && (i < I_MAX - 1);
 
             if (testForSession == 0 || !newIteration) {
                 time = incrementTime(time);
                 if(dirNum <= maxNumberLevel) {
                     fileManager.saveTests(dirNum);
+                    dirNum++;
                 }
                 else {
                     fileManager.saveTests(maxNumberLevel+1);
                 }
-                dirNum++;
+
             }
         }
 
