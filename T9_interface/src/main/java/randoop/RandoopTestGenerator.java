@@ -28,7 +28,7 @@ public class RandoopTestGenerator extends Thread{
         INPUT_CLASSNAME = className;
         PROJECT_DIR = START_DIR + "/project_"+threadIndex;
         TEST_DIR = PROJECT_DIR + "/src/test/java";
-        //this.fileManager = new RandoopFileManager(START_DIR, className, threadIndex);
+
 
         testExceeded=0;
     }
