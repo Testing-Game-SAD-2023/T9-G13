@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Random;
 
 public class RandoopFileManager {
     private String START_DIR;
@@ -84,8 +85,22 @@ public class RandoopFileManager {
         }
     }
     
-    public void selectTest(int nLevelGenerated, int nMaxTest){
+    public void selectTest(int nLevelGenerated, int nMaxTest, int testExceeded){
         if(nMaxTest>nLevelGenerated){
+            int ampiezzaIntervallo = testExceeded/nLevelGenerated;
+            int testToSave=2;
+            Random rand = new Random();
+            /*
+             * ampiezza = test
+             * 
+             */
+            for(int i=0 ; i < nLevelGenerated ; i++){
+               //k=2 numero randomico tra i*ampiezza_intervallo e (i+1)*ampiezza_intervallo-1
+               
+            }
+
+
+
                 /*
                  * nTest -> numero di test in cartella nMaxTest
                  * suddividere i test in nTest/nLevelGenerated sessioni

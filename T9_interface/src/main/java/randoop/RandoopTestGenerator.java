@@ -18,6 +18,8 @@ public class RandoopTestGenerator extends Thread{
     private int threadIndex;
     private RandoopFileManager fileManager;
 
+    private int testExceeded;
+
     public RandoopTestGenerator(String className, RandoopConnector randoopConnector, int maxNumberLevel, int threadIndex){
         this.randoopConnector = randoopConnector;
         this.maxNumberLevel = maxNumberLevel;
@@ -26,6 +28,8 @@ public class RandoopTestGenerator extends Thread{
         PROJECT_DIR = START_DIR + "/projects/project_"+threadIndex;
         TEST_DIR = PROJECT_DIR + "/src/test/java";
         this.fileManager = new RandoopFileManager(START_DIR, className, threadIndex);
+
+        testExceeded=0;
     }
 
     private void randoop(int timeLimit, String nomeRegr, String nomeErr, int seed) throws IOException, InterruptedException {
@@ -107,7 +111,7 @@ public class RandoopTestGenerator extends Thread{
 
             newIteration = (coverage <= 0.95) && (i < I_MAX - 1);
 
-            if (testForSession == 0 || !newIteration) { // aggiunta testForSession%maxTestForSession == 1
+            if (testForSession == 0 || (testForSession % maxTestForSession == 0)|| !newIteration) { 
                 time = incrementTime(time);
                 if(dirNum <= maxNumberLevel) {
                     fileManager.saveTests(dirNum, true);
@@ -119,6 +123,9 @@ public class RandoopTestGenerator extends Thread{
 
             }
         }
+        
+        if(dirNum > maxNumberLevel)
+            testExceeded=testForSession;
         return dirNum-1;
     }
 
