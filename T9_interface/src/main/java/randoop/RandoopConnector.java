@@ -15,14 +15,14 @@ public class RandoopConnector implements IRandoopConnector{
     //gestione dei threads in esecuzione
     private static final int N_MAX = 10;
     private int numberThreads ;
-    private Queue<String> requests;
+    private Queue<RandoopRequest> requests;
 
     //implmentazione DP Observer
     private Dictionary<String,IObserver> observers;
 
     //implementazione DP Singleton
     protected RandoopConnector(){
-        requests = new LinkedList<String>();
+        requests = new LinkedList<RandoopRequest>();
         observers = new Hashtable<String,IObserver>();
         numberThreads=0;
 
@@ -55,7 +55,7 @@ public class RandoopConnector implements IRandoopConnector{
             thread.start();
         }else{
             //metti la richiesta in coda
-            requests.add(className);
+            requests.add(new RandoopRequest(className,maxNumberLevel));
         }
     }
 
@@ -68,7 +68,8 @@ public class RandoopConnector implements IRandoopConnector{
 
         //vedi se ci sono richieste in coda
         if(!requests.isEmpty()){
-            execRandoopTest(requests.remove());
+            RandoopRequest r = requests.remove();
+            execRandoopTest(r.getClassName(),r.getnTests());
         }
 
     }
