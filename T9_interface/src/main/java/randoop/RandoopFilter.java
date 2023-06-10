@@ -8,11 +8,11 @@ public class RandoopFilter {
     private String className;
     private String class_file_path;
 
-    private static final String shared_dir_path = "/home/tesi-step/Desktop/git/T9-G13/repository"; // va modificata
+    private static final String repository_path = "/home/tesi-step/Desktop/git/T9-G13/repository"; // va modificata
 
     public RandoopFilter(String className){
         this.className = className;
-        class_file_path = shared_dir_path + "/"+className+"/"+className+"SourceCode";
+        class_file_path = repository_path + "/"+className+"/"+className+"SourceCode";
     }
 
     private void checkClassName() throws RandoopException{

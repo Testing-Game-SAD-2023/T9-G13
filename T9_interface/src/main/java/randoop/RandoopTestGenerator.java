@@ -10,13 +10,14 @@ import org.apache.commons.io.FileUtils;
 public class RandoopTestGenerator extends Thread{
 
     private RandoopConnector randoopConnector;
-    private static final String START_DIR = "/home/tesi-step/Desktop/git/T9-G13"; //va modificata
+    private static final String START_DIR = "/home/tesi-step/Desktop/git/T9-G13/projects"; //va modificata
+    private static final String REPOSITORY_DIR = "/home/tesi-step/Desktop/git/T9-G13/repository"; //va modificata
     private final String INPUT_CLASSNAME;
     private final String PROJECT_DIR;
     private final String TEST_DIR;
     private int maxNumberLevel;
     private int threadIndex;
-    //private RandoopFileManager fileManager;
+
 
     private int testExceeded;
 
@@ -25,7 +26,7 @@ public class RandoopTestGenerator extends Thread{
         this.maxNumberLevel = maxNumberLevel;
         this.threadIndex = threadIndex;
         INPUT_CLASSNAME = className;
-        PROJECT_DIR = START_DIR + "/projects/project_"+threadIndex;
+        PROJECT_DIR = START_DIR + "/project_"+threadIndex;
         TEST_DIR = PROJECT_DIR + "/src/test/java";
         //this.fileManager = new RandoopFileManager(START_DIR, className, threadIndex);
 
@@ -144,7 +145,7 @@ public class RandoopTestGenerator extends Thread{
     //metodo chiamato dal thread 
     public void run(){
         try {
-            RandoopFileManager fileManager = new RandoopFileManager(START_DIR, INPUT_CLASSNAME, threadIndex);
+            RandoopFileManager fileManager = new RandoopFileManager(REPOSITORY_DIR, PROJECT_DIR, INPUT_CLASSNAME);
             fileManager.initTest();
             int nLevel = runTest(fileManager);
             if(testExceeded!=0){ //la funzione selectTest viene chiamata solo sono sttai generati test in eccesso

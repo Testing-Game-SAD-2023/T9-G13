@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.Random;
 
 public class RandoopFileManager {
-    private String START_DIR;
     private String REPOSITORY;
     private final String INPUT_CLASSNAME;
     private final String CLASS_PATH_BASE;
@@ -19,11 +18,10 @@ public class RandoopFileManager {
     private final String MAIN_DIR;
     private final String TEST_DIR;
 
-    public RandoopFileManager(String START_DIR, String className, int threadIndex){
-        this.START_DIR = START_DIR;
-        this.REPOSITORY= START_DIR + "/repository";
+    public RandoopFileManager(String repository, String project, String className){
+        this.REPOSITORY= repository;
         INPUT_CLASSNAME = className;
-        PROJECT_DIR = START_DIR + "/projects/project_"+threadIndex;
+        PROJECT_DIR = project;
         MAIN_DIR = PROJECT_DIR + "/src/main/java";
         TEST_DIR = PROJECT_DIR + "/src/test/java";
         CLASS_PATH_BASE = REPOSITORY + "/" + INPUT_CLASSNAME+"/"+INPUT_CLASSNAME+"SourceCode";
