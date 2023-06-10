@@ -145,9 +145,12 @@ public class RandoopTestGenerator extends Thread{
     public void run(){
         try {
             fileManager.initTest();
-            int nSessions = runTest();
+            int nLevel = runTest();
+            if(nLevel>maxNumberLevel){
+                fileManager.selectTest(maxNumberLevel,testExceeded);
+            }
             fileManager.cleanDir();
-            randoopConnector.operationCompleted(nSessions,INPUT_CLASSNAME,threadIndex);
+            randoopConnector.operationCompleted(nLevel,INPUT_CLASSNAME,threadIndex);
         }catch (Exception e){
             e.printStackTrace();
         }
