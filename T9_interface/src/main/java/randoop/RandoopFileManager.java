@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class RandoopFileManager {
     private String START_DIR;
-    private String SHARED_DIR;
+    private String REPOSITORY;
     private final String INPUT_CLASSNAME;
     private final String LOWER_CLASSNAME;
     private final String CLASS_PATH_BASE;
@@ -21,14 +21,14 @@ public class RandoopFileManager {
 
     public RandoopFileManager(String START_DIR, String className, int threadIndex){
         this.START_DIR = START_DIR;
-        this.SHARED_DIR= START_DIR + "";
+        this.REPOSITORY= START_DIR + "/repository";
         INPUT_CLASSNAME = className;
         LOWER_CLASSNAME = className.toLowerCase();
         PROJECT_DIR = START_DIR + "/projects/project_"+threadIndex;
         MAIN_DIR = PROJECT_DIR + "/src/main/java";
         TEST_DIR = PROJECT_DIR + "/src/test/java";
-        CLASS_PATH_BASE = SHARED_DIR + "/" + INPUT_CLASSNAME+"/"+INPUT_CLASSNAME+"SourceCode";
-        TEST_PATH_BASE = SHARED_DIR + "/" + INPUT_CLASSNAME+"/RobotTest/RandoopTest";
+        CLASS_PATH_BASE = REPOSITORY + "/" + INPUT_CLASSNAME+"/"+INPUT_CLASSNAME+"SourceCode";
+        TEST_PATH_BASE = REPOSITORY + "/" + INPUT_CLASSNAME+"/RobotTest/RandoopTest";
     }
 
 
