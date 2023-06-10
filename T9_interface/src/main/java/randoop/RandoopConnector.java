@@ -36,22 +36,22 @@ public class RandoopConnector implements IRandoopConnector{
     }
 
     //
-    public void generateRandoopTest(String className, IObserver o) throws RandoopException{
+    public void generateRandoopTest(String className, int maxNumberLevel, IObserver o) throws RandoopException{
         try {
             RandoopFilter f = new RandoopFilter(className);
             f.filter();
             observers.put(className, o);
-            execRandoopTest(className);
+            execRandoopTest(className, maxNumberLevel);
         }catch (IOException | InterruptedException e){
             e.printStackTrace();
         }
     }
 
     //creazione e gestione Threads
-    private void execRandoopTest(String className){
+    private void execRandoopTest(String className, int maxNumberLevel){
         if(numberThreads < N_MAX) {
             numberThreads++;
-            RandoopTestGenerator thread = new RandoopTestGenerator(className, this, numberThreads);
+            RandoopTestGenerator thread = new RandoopTestGenerator(className, this, maxNumberLevel, numberThreads);
             thread.start();
         }else{
             //metti la richiesta in coda

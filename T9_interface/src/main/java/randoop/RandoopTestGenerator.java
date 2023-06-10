@@ -19,11 +19,13 @@ public class RandoopTestGenerator extends Thread{
     private final String PROJECT_DIR;
     private final String MAIN_DIR;
     private final String TEST_DIR;
+    private int maxNumberLevel;
     private int threadIndex;
 
 
-    public RandoopTestGenerator(String className, RandoopConnector randoopConnector, int threadIndex){
+    public RandoopTestGenerator(String className, RandoopConnector randoopConnector, int maxNumberLevel, int threadIndex){
         this.randoopConnector = randoopConnector;
+        this.maxNumberLevel = maxNumberLevel;
         this.threadIndex = threadIndex;
         INPUT_CLASSNAME = className;
         LOWER_CLASSNAME = className.toLowerCase();
@@ -96,7 +98,7 @@ public class RandoopTestGenerator extends Thread{
             }
             oldCoverage = coverage;
 
-            newIteration = (coverage <= 0.95) && (i < I_MAX - 1);
+            newIteration = (coverage <= 0.95) && (i < I_MAX - 1) && (dirNum<= maxNumberLevel);
 
             if (testForSession == 0 || !newIteration) {
                 time = incrementTime(time);
