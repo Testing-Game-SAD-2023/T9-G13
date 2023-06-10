@@ -103,16 +103,15 @@ public class RandoopTestGenerator extends Thread{
             if (testForSession == 0 || !newIteration) {
                 time = incrementTime(time);
                 if(dirNum <= maxNumberLevel) {
-                    fileManager.saveTests(dirNum);
+                    fileManager.saveTests(dirNum, true);
                     dirNum++;
                 }
                 else {
-                    fileManager.saveTests(maxNumberLevel+1);
+                    fileManager.saveTests(maxNumberLevel+1, false);
                 }
 
             }
         }
-
         return dirNum-1;
     }
 

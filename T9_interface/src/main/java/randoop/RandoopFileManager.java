@@ -32,19 +32,34 @@ public class RandoopFileManager {
     }
 
 
-    public void saveTests(int dirNum) throws IOException {
+    public void saveTests(int dirNum, boolean savePrev) throws IOException {
         String dirName = ((dirNum <10) ? "0"+dirNum : Integer.toString(dirNum))+"Level";
         String sessionDir = TEST_PATH_BASE + "/"+dirName+"/TestSourceCode";
         Path sessionDirPath = Paths.get(sessionDir);
-        Files.createDirectory(sessionDirPath);
+        Files.createDirectories(sessionDirPath);
 
         File dir = new File(TEST_DIR);
-        File[] files = dir.listFiles((dir1, name) -> {
-            return name.contains("L"+dirNum);
-        });
-        for(File f : files) {
-            FileUtils.copyFileToDirectory(f, new java.io.File(sessionDir));
+        if( savePrev){
+            for(int i=1 ; i  <= dirNum ; i++){
+
+            final Integer index = i;
+                File[] files = dir.listFiles((dir1, name) -> {
+                    return name.contains("L"+index);
+                });
+                for(File f : files) {
+                    FileUtils.copyFileToDirectory(f, new java.io.File(sessionDir));
+                }
+            }
+        }else{
+            File[] files = dir.listFiles((dir1, name) -> {
+                return name.contains("L"+dirNum);
+            });
+            for(File f : files) {
+                FileUtils.copyFileToDirectory(f, new java.io.File(sessionDir));
+            }
         }
+
+        
     }
 
     public void initTest() throws IOException {
@@ -53,8 +68,7 @@ public class RandoopFileManager {
         FileUtils.copyFileToDirectory(new java.io.File(inputClassFilePath), new java.io.File(destinationDir));
 
         Path folderPath = Paths.get(TEST_PATH_BASE);
-        if(Files.notExists(folderPath))
-            Files.createDirectory(folderPath);
+        Files.createDirectories(folderPath);
 
         String cleanCommand = "/bin/bash "+ "-c "+"cd " + PROJECT_DIR + " && mvn clean";
 
@@ -66,6 +80,19 @@ public class RandoopFileManager {
             e.printStackTrace();
         }
     }
+    
+    public void selectTest(int nLevelGenerated, int nMaxTest){
+        if(nMaxTest>nLevelGenerated){
+                /*
+                 * nTest -> numero di test in cartella nMaxTest
+                 * suddividere i test in nTest/nLevelGenerated sessioni
+                 *   per ogni sessione scegliamo un numero di test da prelvare e lo facciamo in modo casuale
+                 *      ....
+                 * 
+                 */
+        }
+    } 
+    
 
     public void cleanDir() throws IOException {
         String cleanCommand = "/bin/bash "+ "-c "+"cd " + PROJECT_DIR + " && mvn clean";

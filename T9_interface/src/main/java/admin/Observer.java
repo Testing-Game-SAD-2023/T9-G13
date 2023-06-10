@@ -26,10 +26,10 @@ public class Observer implements IObserver {
         IRandoopConnector instance = RandoopConnector.getInstance();
         Observer ob = new Observer();
         try {
-            instance.generateRandoopTest("Calcolatrice", ob) ;
-            System.out.println("Richiesta per Calcolatrice inoltrata");
-            //instance.generateRandoopTest("VCardBean", ob) ;
-            //System.out.println("Richiesta per VCardBean inoltrata");
+            //instance.generateRandoopTest("Calcolatrice", 7,ob) ;
+            //System.out.println("Richiesta per Calcolatrice inoltrata");
+            instance.generateRandoopTest("VCardBean",2, ob) ;
+            System.out.println("Richiesta per VCardBean inoltrata");
         }catch (RandoopException e){
             e.printStackTrace();
         }
