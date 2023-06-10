@@ -36,9 +36,12 @@ public class RandoopFileManager {
         String dirName = ((dirNum <10) ? "0"+dirNum : Integer.toString(dirNum))+"Level";
         String sessionDir = TEST_PATH_BASE + "/"+dirName+"/TestSourceCode";
         Path sessionDirPath = Paths.get(sessionDir);
-        Files.createDirectories(sessionDirPath);
+        Files.createDirectories(sessionDirPath); //gestione delle cartelle necessarie al salvataggio dei test
 
         File dir = new File(TEST_DIR);
+        //due possibili comportamenti
+        //  1) qunado savePrev == true inseriamo nel livello dirNum tutti i file generati fino a quel momemento
+        //  2) quando savePrev == false inseriamo nel livello dirNum solo i file generati per lo specifico livello
         if( savePrev){
             for(int i=1 ; i  <= dirNum ; i++){
 
@@ -93,7 +96,7 @@ public class RandoopFileManager {
         }
     } 
     
-
+    //svuota la cartella del progetto utilizzato per un futuro utilizzo
     public void cleanDir() throws IOException {
         String cleanCommand = "/bin/bash "+ "-c "+"cd " + PROJECT_DIR + " && mvn clean";
         try {
@@ -105,13 +108,12 @@ public class RandoopFileManager {
 
         String mainJavaFilesPattern = MAIN_DIR + "/";
         String testJavaFilesPattern = TEST_DIR + "/";
-        String targetJavaFilesPattern = PROJECT_DIR + "/target/";//aggiunta
+        String targetJavaFilesPattern = PROJECT_DIR + "/target/";
 
-        //cancella i file corretti?
 
         FileUtils.cleanDirectory(new File(mainJavaFilesPattern));
         FileUtils.cleanDirectory(new File(testJavaFilesPattern));
-        FileUtils.cleanDirectory(new File(targetJavaFilesPattern)); //aggiunta
+        FileUtils.cleanDirectory(new File(targetJavaFilesPattern));
     }
 
 }
