@@ -10,8 +10,8 @@ import org.apache.commons.io.FileUtils;
 public class RandoopTestGenerator extends Thread{
 
     private RandoopConnector randoopConnector;
-    private static final String START_DIR = "/home/tesi-step/Desktop/git/T9-G13/projects"; //va modificata
-    private static final String REPOSITORY_DIR = "/home/tesi-step/Desktop/git/T9-G13/repository"; //va modificata
+    private static final String REPOSITORY_DIR = System.getProperty("user.home") + "/T9_repo_test";
+    private static final String START_DIR =  System.getProperty("user.home") + "/T9_projects_test";
     private final String INPUT_CLASSNAME;
     private final String PROJECT_DIR;
     private final String TEST_DIR;
@@ -26,6 +26,12 @@ public class RandoopTestGenerator extends Thread{
         this.maxNumberLevel = maxNumberLevel;
         this.threadIndex = threadIndex;
         INPUT_CLASSNAME = className;
+/*        try {
+            START_DIR = getClass().getResource("/projects").toURI().getPath();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }*/
         PROJECT_DIR = START_DIR + "/project_"+threadIndex;
         TEST_DIR = PROJECT_DIR + "/src/test/java";
 
@@ -36,7 +42,17 @@ public class RandoopTestGenerator extends Thread{
     private void randoop(int timeLimit, String nomeRegr, String nomeErr, int seed) throws IOException, InterruptedException {
         //System.out.println("[DEBUG] TIME: " + timeLimit + " SEED: " + seed);
         //SE VA SU WINDOWS NECESSARIO MODIFICARE SEPARATORE DEL CLASSPATH
-        String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath ../randoop-all-4.3.2.jar:./target/classes/ randoop.main.Main gentests"
+
+        String separator = ":";
+        String[] commands = {"/bin/bash","-c",""};
+        if(System.getProperty("os.name").startsWith("Windows")){
+            separator = ";";
+            commands[0] = "";
+            commands[1] = "";
+        }
+
+        String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath ../randoop-all-4.3.2.jar" + separator
+                + "./target/classes/ randoop.main.Main gentests"
                 + " --testclass=" + INPUT_CLASSNAME
                 + " --time-limit=" + timeLimit
                 + " --regression-test-basename=" + nomeRegr
@@ -44,12 +60,9 @@ public class RandoopTestGenerator extends Thread{
                 + " --randomseed=" + seed
                 + " --junit-output-dir=" + TEST_DIR
                 + " && mvn test";
-
-
-        String[] commands = {"/bin/bash", "-c", cmd};
+        commands[2] = cmd;
         Process process = Runtime.getRuntime().exec(commands);
         process.getErrorStream().transferTo(System.out);
-        //process.getInputStream().transferTo(System.out);
         process.waitFor();
 
     }
