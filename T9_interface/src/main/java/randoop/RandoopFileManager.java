@@ -69,11 +69,10 @@ public class RandoopFileManager {
         String inputClassFilePath = CLASS_PATH_BASE +"/" + INPUT_CLASSNAME +".java";
         String destinationDir = MAIN_DIR;
         FileUtils.copyFileToDirectory(new java.io.File(inputClassFilePath), new java.io.File(destinationDir));
-
         Path folderPath = Paths.get(TEST_PATH_BASE);
         Files.createDirectories(folderPath);
 
-        String cleanCommand = "/bin/bash "+ "-c "+"cd " + PROJECT_DIR + " && mvn clean";
+        String cleanCommand = "mvn -f "+ PROJECT_DIR + " clean";
 
         try {
             Process process = Runtime.getRuntime().exec(cleanCommand);
@@ -100,7 +99,7 @@ public class RandoopFileManager {
          *
          */
         int selectedTest = 0;
-        for(int i=0 ; i < nMaxTest-1 ; i++){
+        for(int i=0 ; i < nMaxTest ; i++){
            //k=2 numero randomico tra i*ampiezza_intervallo e (i+1)*ampiezza_intervallo-1
             for(int j=0 ; j < testToSave ; j++){
                 rand = new Random();
@@ -121,7 +120,8 @@ public class RandoopFileManager {
     
     //svuota la cartella del progetto utilizzato per un futuro utilizzo
     public void cleanDir() throws IOException {
-        String cleanCommand = "/bin/bash "+ "-c "+"cd " + PROJECT_DIR + " && mvn clean";
+        String cleanCommand = "mvn -f "+ PROJECT_DIR + " clean";
+
         try {
             Process process = Runtime.getRuntime().exec(cleanCommand);
             process.waitFor();
@@ -136,7 +136,6 @@ public class RandoopFileManager {
 
         FileUtils.cleanDirectory(new File(mainJavaFilesPattern));
         FileUtils.cleanDirectory(new File(testJavaFilesPattern));
-        FileUtils.cleanDirectory(new File(targetJavaFilesPattern));
     }
 
 

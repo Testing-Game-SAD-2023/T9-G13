@@ -1,6 +1,8 @@
 package randoop;
 
 import exceptions.RandoopException;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -8,7 +10,7 @@ public class RandoopFilter {
     private String className;
     private String class_file_path;
 
-    private static final String repository_path = "/home/tesi-step/Desktop/git/T9-G13/repository"; // va modificata
+    private static final String repository_path = System.getProperty("user.home") + "/T9_repo_test"; // va modificata
 
     public RandoopFilter(String className){
         this.className = className;
@@ -33,7 +35,7 @@ public class RandoopFilter {
         if(p.exitValue() != 0){ //TODO
             throw new RandoopException("Unable to compile the class !!\n",RandoopException.CLASS_NO_COMPILE);
         }
-        p = Runtime.getRuntime().exec("rm -f " + class_file_path + "/" + className + ".class");
+        FileUtils.forceDelete(new File(class_file_path + "/" + className + ".class"));
     }
 
     public void filter() throws RandoopException,IOException,InterruptedException{
