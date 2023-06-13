@@ -1,9 +1,8 @@
+package blackBoxTest;
 
 import exceptions.RandoopException;
 import interfaces.IObserver;
-import interfaces.IRandoopConnector;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,7 +34,7 @@ public class EquivalenceClassTest {
     public void testClassNameEmpty() throws Exception{
         assertThrows(RandoopException.class, ()->randoopConnector.generateRandoopTest("",10,obs));
         try{
-            randoopConnector.generateRandoopTest("",10,null);
+            randoopConnector.generateRandoopTest("",10,obs);
         }catch (RandoopException e){
             assertEquals(e.getERROR_TYPE(),RandoopException.INVALID_CLASSNAME);
         }
@@ -45,7 +44,7 @@ public class EquivalenceClassTest {
     public void testClassNameContainsSymbols() throws Exception{
         assertThrows(RandoopException.class, ()->randoopConnector.generateRandoopTest("Calcolat.rice",10,obs));
         try{
-            randoopConnector.generateRandoopTest("Calcolat.rice",10,null);
+            randoopConnector.generateRandoopTest("Calcolat.rice",10,obs);
         }catch (RandoopException e){
             assertEquals(e.getERROR_TYPE(),RandoopException.INVALID_CLASSNAME);
         }
@@ -56,7 +55,7 @@ public class EquivalenceClassTest {
         assertThrows(RandoopException.class, ()->randoopConnector.generateRandoopTest("calcolatrice",10,obs));
 
         try{
-            randoopConnector.generateRandoopTest("calcolatrice",10,null);
+            randoopConnector.generateRandoopTest("calcolatrice",10,obs);
         }catch (RandoopException e){
             assertEquals(e.getERROR_TYPE(),RandoopException.INVALID_CLASSNAME);
         }
@@ -66,7 +65,7 @@ public class EquivalenceClassTest {
     public void testInputNumber() throws Exception{
         assertThrows(RandoopException.class, ()->randoopConnector.generateRandoopTest("Calcolatrice",-1,obs));
         try{
-            randoopConnector.generateRandoopTest("Calcolatrice",-1,null);
+            randoopConnector.generateRandoopTest("Calcolatrice",-1,obs);
         }catch (RandoopException e){
             assertEquals(e.getERROR_TYPE(),RandoopException.INVALID_NTEST);
         }
@@ -76,7 +75,7 @@ public class EquivalenceClassTest {
     public void testInputNumberBoundaryValue() throws Exception{
         assertThrows(RandoopException.class, ()->randoopConnector.generateRandoopTest("Calcolatrice",0,obs));
         try{
-            randoopConnector.generateRandoopTest("Calcolatrice",0,null);
+            randoopConnector.generateRandoopTest("Calcolatrice",0,obs);
         }catch (RandoopException e){
             assertEquals(e.getERROR_TYPE(),RandoopException.INVALID_NTEST);
         }

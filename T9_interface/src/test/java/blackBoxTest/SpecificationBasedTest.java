@@ -1,3 +1,5 @@
+package blackBoxTest;
+
 import exceptions.RandoopException;
 import interfaces.IObserver;
 import org.apache.commons.io.FileUtils;
@@ -25,7 +27,7 @@ public class SpecificationBasedTest {
         randoopConnector = RandoopConnector.getInstance();
         assumeNotNull(randoopConnector);
 
-        randoopConnector.setRepositoryDir(System.getProperty("user.home") + "/T9_repo_test_forTest");
+        randoopConnector.setRepositoryDir(System.getProperty("user.home") + "/.T9_repo_test");
         obs = mock(IObserver.class);
     }
 
@@ -34,7 +36,7 @@ public class SpecificationBasedTest {
         //la classe Esempio non compila
         assertThrows(RandoopException.class, ()->randoopConnector.generateRandoopTest("Esempio",5,obs));
         try{
-            randoopConnector.generateRandoopTest("Esempio",5,null);
+            randoopConnector.generateRandoopTest("Esempio",5,obs);
         }catch (RandoopException e){
             assertEquals(e.getERROR_TYPE(),RandoopException.CLASS_NO_COMPILE);
         }
@@ -45,7 +47,7 @@ public class SpecificationBasedTest {
         //la cartella per la classe Calcolatore non esiste
         assertThrows(RandoopException.class, ()->randoopConnector.generateRandoopTest("Calcolatore",5,obs));
         try{
-            randoopConnector.generateRandoopTest("Calcolatore",5,null);
+            randoopConnector.generateRandoopTest("Calcolatore",5,obs);
         }catch (RandoopException e){
             assertEquals(e.getERROR_TYPE(),RandoopException.DIR_ERROR);
         }
@@ -56,7 +58,7 @@ public class SpecificationBasedTest {
         //la cartella per Calendario esiste, ma non c'è la classe
         assertThrows(RandoopException.class, ()->randoopConnector.generateRandoopTest("Calendario",5,obs));
         try{
-            randoopConnector.generateRandoopTest("Calendario",5,null);
+            randoopConnector.generateRandoopTest("Calendario",5,obs);
         }catch (RandoopException e){
             assertEquals(e.getERROR_TYPE(),RandoopException.CLASS_NOT_FOUND);
         }
@@ -72,7 +74,7 @@ public class SpecificationBasedTest {
 
     @AfterClass
     public static void tearDown() throws IOException {
-        String path = System.getProperty("user.home") + "/T9_repo_test_forTest/Calcolatrice/RobotTest/RandoopTest";
+        String path = System.getProperty("user.home") + "/.T9_repo_test/VCard/RobotTest/RandoopTest";
         FileUtils.deleteDirectory(new File(path));
 
 
