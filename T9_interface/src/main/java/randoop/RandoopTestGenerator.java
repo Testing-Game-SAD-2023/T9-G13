@@ -88,6 +88,7 @@ public class RandoopTestGenerator extends Thread{
         int time = 5;
 
         boolean newIteration = true; //variabile booleana che determina quando l'algoritmo termina
+        boolean exceedingLevels = false;
 
         // variaibili per la valutazione della copertura
         int inst_missed=0, inst_covered=0;
@@ -100,7 +101,7 @@ public class RandoopTestGenerator extends Thread{
             //metodo wrapper per la chiamata a randoop
             randoop(time, nomeRegr, nomeErr, new Random().nextInt(100) + 1);
 
-            if(dirNum <= maxNumberLevel) {
+            if(!exceedingLevels) {
                 testForSession = (testForSession + 1) % maxTestForSession;
             }else{
                 testForSession+=1;
@@ -137,13 +138,14 @@ public class RandoopTestGenerator extends Thread{
                     dirNum++;
                 }
                 else {
+                    exceedingLevels = true;
                     fileManager.saveTests(maxNumberLevel+1, false);
                 }
 
             }
         }
         
-        if(dirNum > maxNumberLevel)
+        if(exceedingLevels)
             testExceeded=testForSession;
         return dirNum-1;
     }
@@ -167,6 +169,7 @@ public class RandoopTestGenerator extends Thread{
             fileManager.initTest();
             int nLevel = runTest(fileManager);
             if(testExceeded!=0){ //la funzione selectTest viene chiamata solo sono sttai generati test in eccesso
+                System.out.println("TEST EXCEEDED "+testExceeded);
                 fileManager.selectTest(maxNumberLevel,testExceeded);
             }
             fileManager.cleanDir();

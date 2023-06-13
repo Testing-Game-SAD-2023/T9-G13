@@ -38,7 +38,7 @@ public class RandoopConnector implements IRandoopConnector{
     //
     public void generateRandoopTest(String className, int maxNumberLevel, IObserver o) throws RandoopException{
         try {
-            RandoopFilter f = new RandoopFilter(className);
+            RandoopFilter f = new RandoopFilter(className,maxNumberLevel);
             f.filter();
             observers.put(className, o);
             execRandoopTest(className, maxNumberLevel);
