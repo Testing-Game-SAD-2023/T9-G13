@@ -13,4 +13,6 @@ L’applicazione deve offrire la funzionalità di generazione dei test su una da
 
 ## Wiki:
 https://github.com/Testing-Game-SAD-2023/T9-G13/wiki
- 
+
+## Guida di Utilizzo
+Eseguire script ./install.sh
