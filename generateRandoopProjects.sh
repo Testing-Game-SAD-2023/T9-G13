@@ -1,10 +1,18 @@
 #!/bin/bash
 
-echo "Creazione automatica di un progetto Maven"
+echo "Configurazione iniziale automatica del servizio Randoop"
 
 echo "------------------------------------------------"
 
-cd projects &&
+mkdir $HOME/.T9_projects_test &&
+cp -a ./randoop-all-4.3.2.jar $HOME/.T9_projects_test
+cd $HOME/.T9_projects_test &&
+echo "Creazione e copia della cartella di test"
+echo "------------------------------------------------"
+
+echo "Creazione dei progetti maven"
+echo "------------------------------------------------"
+
 
 for i in $(seq $1)
 do

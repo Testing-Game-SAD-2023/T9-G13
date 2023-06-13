@@ -12,7 +12,7 @@ public class RandoopTestGenerator extends Thread{
 
     private RandoopConnector randoopConnector;
     private static final String REPOSITORY_DIR = System.getProperty("user.home") + "/T9_repo_test";
-    private static final String START_DIR =  System.getProperty("user.home") + "/T9_projects_test";
+    private static final String START_DIR =  System.getProperty("user.home") + "/.T9_projects_test";
     private final String INPUT_CLASSNAME;
     private final String PROJECT_DIR;
     private final String TEST_DIR;
@@ -51,11 +51,12 @@ public class RandoopTestGenerator extends Thread{
             commands[0] = "";
             commands[1] = "";
         }
-		
+
         String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath "
-				+getClass().getResource("/randoop-all-4.3.2.jar").toURI().getPath()
-				+separator
-                + "./target/classes/ randoop.main.Main gentests"
+				+ "../randoop-all-4.3.2.jar"
+                + separator
+                + "./target/classes/"
+                + " randoop.main.Main gentests"
                 + " --testclass=" + INPUT_CLASSNAME
                 + " --time-limit=" + timeLimit
                 + " --regression-test-basename=" + nomeRegr
@@ -65,6 +66,7 @@ public class RandoopTestGenerator extends Thread{
                 + " && mvn test";
         commands[2] = cmd;
         Process process = Runtime.getRuntime().exec(commands);
+        //process.getInputStream().transferTo(System.out);
         process.getErrorStream().transferTo(System.out);
         process.waitFor();
 
