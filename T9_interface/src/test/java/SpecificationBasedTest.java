@@ -15,7 +15,7 @@ import static org.junit.Assume.assumeNotNull;
 import static org.mockito.AdditionalMatchers.leq;
 import static org.mockito.Mockito.*;
 
-public class SpecificationBasedTesting {
+public class SpecificationBasedTest {
 
     private static RandoopConnector randoopConnector;
     private static IObserver obs;
