@@ -35,7 +35,7 @@ public class RandoopFilter {
     private void checkClassCompile() throws RandoopException,IOException,InterruptedException {
 
         Process p = Runtime.getRuntime().exec("javac " + class_file_path + "/" + className + ".java");
-        p.getErrorStream().transferTo(System.out);
+        //p.getErrorStream().transferTo(System.out);
         p.waitFor();
         if(p.exitValue() != 0){
             throw new RandoopException("Unable to compile class "+className,RandoopException.CLASS_NO_COMPILE);
