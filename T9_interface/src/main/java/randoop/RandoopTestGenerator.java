@@ -1,5 +1,6 @@
 package randoop;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +40,7 @@ public class RandoopTestGenerator extends Thread{
         testExceeded=0;
     }
 
-    private void randoop(int timeLimit, String nomeRegr, String nomeErr, int seed) throws IOException, InterruptedException {
+    private void randoop(int timeLimit, String nomeRegr, String nomeErr, int seed) throws IOException, InterruptedException,URISyntaxException {
         //System.out.println("[DEBUG] TIME: " + timeLimit + " SEED: " + seed);
         //SE VA SU WINDOWS NECESSARIO MODIFICARE SEPARATORE DEL CLASSPATH
 
@@ -50,8 +51,10 @@ public class RandoopTestGenerator extends Thread{
             commands[0] = "";
             commands[1] = "";
         }
-
-        String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath ../randoop-all-4.3.2.jar" + separator
+		
+        String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath "
+				+getClass().getResource("randoop-all-4.3.2.jar").toURI().getPath()
+				+separator
                 + "./target/classes/ randoop.main.Main gentests"
                 + " --testclass=" + INPUT_CLASSNAME
                 + " --time-limit=" + timeLimit
@@ -67,7 +70,7 @@ public class RandoopTestGenerator extends Thread{
 
     }
 
-    private int runTest(RandoopFileManager fileManager) throws IOException, InterruptedException {
+    private int runTest(RandoopFileManager fileManager) throws IOException, InterruptedException,URISyntaxException{
         int i = 0;
         int testForSession = 0;
         int dirNum = 1;
