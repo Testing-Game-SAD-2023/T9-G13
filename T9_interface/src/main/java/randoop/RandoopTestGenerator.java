@@ -11,8 +11,9 @@ import org.apache.commons.io.FileUtils;
 public class RandoopTestGenerator extends Thread{
 
     private RandoopConnector randoopConnector;
-    private static final String REPOSITORY_DIR = System.getProperty("user.home") + "/T9_repo_test";
+    
     private static final String START_DIR =  System.getProperty("user.home") + "/.T9_projects_test";
+    private String REPOSITORY_DIR;
     private final String INPUT_CLASSNAME;
     private final String PROJECT_DIR;
     private final String TEST_DIR;
@@ -22,17 +23,13 @@ public class RandoopTestGenerator extends Thread{
 
     private int testExceeded;
 
-    public RandoopTestGenerator(String className, RandoopConnector randoopConnector, int maxNumberLevel, int threadIndex){
+    public RandoopTestGenerator(String className, RandoopConnector randoopConnector, int maxNumberLevel, int threadIndex, String repository_dir){
         this.randoopConnector = randoopConnector;
         this.maxNumberLevel = maxNumberLevel;
         this.threadIndex = threadIndex;
+        this.REPOSITORY_DIR = repository_dir;
         INPUT_CLASSNAME = className;
-/*        try {
-            START_DIR = getClass().getResource("/projects").toURI().getPath();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }*/
+
         PROJECT_DIR = START_DIR + "/project_"+threadIndex;
         TEST_DIR = PROJECT_DIR + "/src/test/java";
 

@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.Random;
 
 public class RandoopFileManager {
-    private String REPOSITORY;
+    private String repositoryPath;
     private final String INPUT_CLASSNAME;
     private final String CLASS_PATH_BASE;
     private final String TEST_PATH_BASE;
@@ -18,14 +18,14 @@ public class RandoopFileManager {
     private final String MAIN_DIR;
     private final String TEST_DIR;
 
-    public RandoopFileManager(String repository, String project, String className){
-        this.REPOSITORY= repository;
+    public RandoopFileManager(String repositoryPath, String project, String className){
+        this.repositoryPath= repositoryPath;
         INPUT_CLASSNAME = className;
         PROJECT_DIR = project;
         MAIN_DIR = PROJECT_DIR + "/src/main/java";
         TEST_DIR = PROJECT_DIR + "/src/test/java";
-        CLASS_PATH_BASE = REPOSITORY + "/" + INPUT_CLASSNAME+"/"+INPUT_CLASSNAME+"SourceCode";
-        TEST_PATH_BASE = REPOSITORY + "/" + INPUT_CLASSNAME+"/RobotTest/RandoopTest";
+        CLASS_PATH_BASE = repositoryPath + "/" + INPUT_CLASSNAME+"/"+INPUT_CLASSNAME+"SourceCode";
+        TEST_PATH_BASE = repositoryPath + "/" + INPUT_CLASSNAME+"/RobotTest/RandoopTest";
     }
 
     private void copyWithPattern(String src, String dst,String pattern)throws IOException{
@@ -131,7 +131,7 @@ public class RandoopFileManager {
 
         String mainJavaFilesPattern = MAIN_DIR + "/";
         String testJavaFilesPattern = TEST_DIR + "/";
-        String targetJavaFilesPattern = PROJECT_DIR + "/target/";
+        
 
 
         FileUtils.cleanDirectory(new File(mainJavaFilesPattern));

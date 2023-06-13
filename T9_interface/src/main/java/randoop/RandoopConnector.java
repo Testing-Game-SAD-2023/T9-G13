@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.util.*;
 
 public class RandoopConnector implements IRandoopConnector{
+    //path Repository delle Classi
+    private String repositoryPath;
     //singleton
     private static RandoopConnector instance;
 
@@ -22,6 +24,7 @@ public class RandoopConnector implements IRandoopConnector{
 
     //implementazione DP Singleton
     protected RandoopConnector(){
+        repositoryPath = System.getProperty("user.home") + "/T9_repo_test";
         requests = new LinkedList<RandoopRequest>();
         observers = new Hashtable<String,IObserver>();
         numberThreads=0;
@@ -35,10 +38,14 @@ public class RandoopConnector implements IRandoopConnector{
         return instance;
     }
 
+    public void setRepositoryDir(String dir){
+        repositoryPath=dir;
+    }
+    
     //
     public void generateRandoopTest(String className, int maxNumberLevel, IObserver o) throws RandoopException{
         try {
-            RandoopFilter f = new RandoopFilter(className,maxNumberLevel);
+            RandoopFilter f = new RandoopFilter(className,maxNumberLevel, repositoryPath);
             f.filter();
             observers.put(className, o);
             execRandoopTest(className, maxNumberLevel);
@@ -51,7 +58,7 @@ public class RandoopConnector implements IRandoopConnector{
     private void execRandoopTest(String className, int maxNumberLevel){
         if(numberThreads < N_MAX) {
             numberThreads++;
-            RandoopTestGenerator thread = new RandoopTestGenerator(className, this, maxNumberLevel, numberThreads);
+            RandoopTestGenerator thread = new RandoopTestGenerator(className, this, maxNumberLevel, numberThreads, repositoryPath);
             thread.start();
         }else{
             //metti la richiesta in coda
@@ -73,14 +80,6 @@ public class RandoopConnector implements IRandoopConnector{
         }
 
     }
-/*
-    public static void main(String[] args){
-        RandoopConnector r = new RandoopConnector();
-        try {
-            r.generateRandoopTest("Calcolatrice", new Observer());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }*/
+
 
 }

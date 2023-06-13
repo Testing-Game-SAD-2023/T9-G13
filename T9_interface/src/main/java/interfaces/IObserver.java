@@ -4,6 +4,6 @@ package interfaces;
 
 public interface IObserver{
 
-    public void notifyCompleted (int numberSession);
+    public void notifyCompleted (int nLevels);
 
 }

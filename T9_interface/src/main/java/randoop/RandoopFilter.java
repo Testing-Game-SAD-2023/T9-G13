@@ -13,11 +13,12 @@ public class RandoopFilter {
     private String class_file_path;
     private int maxNumLevels;
 
-    private static final String repository_path = System.getProperty("user.home") + "/T9_repo_test"; // va modificata
+    private String repositoryPath;
 
-    public RandoopFilter(String className, int maxNumLevels){
+    public RandoopFilter(String className, int maxNumLevels, String repositoryPath){
+        this.repositoryPath = repositoryPath;
         this.className = className;
-        class_file_path = repository_path + "/"+className+"/"+className+"SourceCode";
+        class_file_path = repositoryPath + "/"+className+"/"+className+"SourceCode";
         this.maxNumLevels = maxNumLevels;
     }
 

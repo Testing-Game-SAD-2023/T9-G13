@@ -11,8 +11,8 @@ import java.io.IOException;
 
 
 public class Observer implements IObserver {
-    public void notifyCompleted (int numberSession){
-        System.out.println("[OBSERVER]: "+ numberSession +" test sessions generated");
+    public void notifyCompleted (int nLevels){
+        System.out.println("[OBSERVER]: "+ nLevels +" test sessions generated");
     }
 
     public static void main(String[] argv){
@@ -21,8 +21,8 @@ public class Observer implements IObserver {
         try {
             instance.generateRandoopTest("Calcolatrice", 7,ob) ;
             System.out.println("Richiesta per Calcolatrice inoltrata");
-            //instance.generateRandoopTest("VCardBean",2, ob) ;
-            //System.out.println("Richiesta per VCardBean inoltrata");
+            instance.generateRandoopTest("VCardBean",2, ob) ;
+            System.out.println("Richiesta per VCardBean inoltrata");
         }catch (RandoopException e){
             e.printStackTrace();
         }
