@@ -27,7 +27,7 @@ public class EquivalenceClassTest {
         randoopConnector = RandoopConnector.getInstance();
         assumeNotNull(randoopConnector);
 
-        randoopConnector.setRepositoryDir(System.getProperty("user.home") + "/T9_repo_test_forTest");
+        randoopConnector.setRepositoryDir(System.getProperty("user.home") + "/.T9_repo_test");
         obs = mock(IObserver.class);
     }
 
@@ -91,7 +91,7 @@ public class EquivalenceClassTest {
 
     @AfterClass
     public static void tearDown() throws IOException {
-        String path = System.getProperty("user.home") + "/T9_repo_test_forTest/Calcolatrice/RobotTest/RandoopTest";
+        String path = System.getProperty("user.home") + "/.T9_repo_test/Calcolatrice/RobotTest/RandoopTest";
         FileUtils.deleteDirectory(new File(path));
 
 

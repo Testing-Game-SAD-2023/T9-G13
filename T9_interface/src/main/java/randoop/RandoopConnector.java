@@ -24,7 +24,7 @@ public class RandoopConnector implements IRandoopConnector{
 
     //implementazione DP Singleton
     protected RandoopConnector(){
-        repositoryPath = System.getProperty("user.home") + "/T9_repo_test";
+        repositoryPath = System.getProperty("user.home") + "/repo";
         requests = new LinkedList<RandoopRequest>();
         observers = new Hashtable<String,IObserver>();
         numberThreads=0;
