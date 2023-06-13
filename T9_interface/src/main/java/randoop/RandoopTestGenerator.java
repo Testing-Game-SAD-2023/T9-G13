@@ -53,7 +53,7 @@ public class RandoopTestGenerator extends Thread{
         }
 		
         String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath "
-				+getClass().getResource("randoop-all-4.3.2.jar").toURI().getPath()
+				+getClass().getResource("/randoop-all-4.3.2.jar").toURI().getPath()
 				+separator
                 + "./target/classes/ randoop.main.Main gentests"
                 + " --testclass=" + INPUT_CLASSNAME
