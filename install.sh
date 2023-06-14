@@ -6,6 +6,6 @@ echo "------------------------------------------------"
 cp -r ./T9_repo_test $HOME/ &&
 mv $HOME/T9_repo_test $HOME/.T9_repo_test &&
 cd ./T9_interface &&
-mvn clean package
+mvn clean install
 
 echo "Fine Installazione" 
