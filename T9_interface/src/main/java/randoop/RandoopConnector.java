@@ -15,8 +15,9 @@ public class RandoopConnector implements IRandoopConnector{
     private static RandoopConnector instance;
 
     //gestione dei threads in esecuzione
-    private static final int N_MAX = 10;
+    private static final int N_MAX = 4;
     private int numberThreads ;
+    private boolean busyThreads[];
     private Queue<RandoopRequest> requests;
 
     //implmentazione DP Observer
@@ -28,6 +29,10 @@ public class RandoopConnector implements IRandoopConnector{
         requests = new LinkedList<RandoopRequest>();
         observers = new Hashtable<String,IObserver>();
         numberThreads=0;
+        busyThreads = new boolean[N_MAX];
+        for(boolean b: busyThreads){
+            b = false;
+        }
 
     }
 
@@ -55,13 +60,21 @@ public class RandoopConnector implements IRandoopConnector{
     }
 
     //creazione e gestione Threads
-    private void execRandoopTest(String className, int maxNumberLevel){
+    private synchronized void execRandoopTest(String className, int maxNumberLevel){
         if(numberThreads < N_MAX) {
             numberThreads++;
-            RandoopTestGenerator thread = new RandoopTestGenerator(className, this, maxNumberLevel, numberThreads, repositoryPath);
+            //seleziona thread su cui eseguire
+            int threadIndex = 0;
+            while(busyThreads[threadIndex]){
+                threadIndex++;
+            }
+            busyThreads[threadIndex] = true;
+            //System.out.println("[RANDOOP CONNECTOR] className="+className+" richiesta inoltrata; indiceThread="+(threadIndex+1));
+            RandoopTestGenerator thread = new RandoopTestGenerator(className, this, maxNumberLevel, threadIndex+1, repositoryPath);
             thread.start();
         }else{
             //metti la richiesta in coda
+            //System.out.println("[RANDOOP CONNECTOR] className="+className+" richiesta in coda");
             requests.add(new RandoopRequest(className,maxNumberLevel));
         }
     }
@@ -69,6 +82,7 @@ public class RandoopConnector implements IRandoopConnector{
     public synchronized void operationCompleted(int nSessions, String className, int threadIndex){
         //System.out.println("[RANDOOP CONNECTOR] generation for class "+className+" completed by thread n"+threadIndex);
         numberThreads--;
+        busyThreads[threadIndex-1] = false;
         //invia la notifica che hai completato a chi è in ascolto
         observers.get(className).notifyCompleted(nSessions);
         observers.remove(className);

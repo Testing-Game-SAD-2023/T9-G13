@@ -114,7 +114,7 @@ public class RandoopFileManager {
         }
         //eliminiamo la cartella in eccesso
         FileUtils.deleteDirectory(new File(src));
-        FileUtils.forceDelete(new File(src));
+        //FileUtils.forceDelete(new File(src));
 
     } 
     

@@ -128,7 +128,8 @@ public class RandoopTestGenerator extends Thread{
 
             newIteration = (coverage <= 0.95) && (i < I_MAX - 1);
 
-            if (testForSession == 0 || (testForSession % maxTestForSession == 0)|| !newIteration) { 
+            //se siamo alla fine della sessione o non faremo altre iterazioni, salva i test finora
+            if ((testForSession % maxTestForSession == 0)|| !newIteration) {
                 time = incrementTime(time);
                 if(dirNum <= maxNumberLevel) {
                     fileManager.saveTests(dirNum, true);
@@ -166,7 +167,7 @@ public class RandoopTestGenerator extends Thread{
             fileManager.initTest();
             int nLevel = runTest(fileManager);
             if(testExceeded!=0){ //la funzione selectTest viene chiamata solo sono sttai generati test in eccesso
-                System.out.println("TEST EXCEEDED "+testExceeded);
+                //System.out.println("TEST EXCEEDED "+testExceeded);
                 fileManager.selectTest(maxNumberLevel,testExceeded);
             }
             fileManager.cleanDir();
