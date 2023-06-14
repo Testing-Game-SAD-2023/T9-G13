@@ -15,4 +15,17 @@ L’applicazione deve offrire la funzionalità di generazione dei test su una da
 https://github.com/Testing-Game-SAD-2023/T9-G13/wiki
 
 ## Guida di Utilizzo
-Eseguire script ./install.sh
+Per installare e integrare il servizio è necessario:
+1) Effettuare il clone di questa repostitory;
+2) Eseguire lo script ./install.sh: tale script creerà tutte le directory di lavoro necessarie ed esporterà un file .jar (RandoopManager-1.0-SNAPSHOT.jar) nel repository maven locale;
+3) Importare nel proprio progetto il file .jar generato, aggiungendo alla sezione <dependencies> al file pom.xml le seguenti dipendenze:
+```
+<dependencies>
+   <dependency>
+       <groupId>org.example</groupId>
+        <artifactId>RandoopManager</artifactId
+        <version>1.0-SNAPSHOT</version>
+   </dependency>
+ </dependencies>
+ ```
+ In alternativa, il jar può essere incluso manualmente e si troverà nella directory associata al repository locale.
