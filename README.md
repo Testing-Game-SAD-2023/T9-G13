@@ -11,21 +11,12 @@
 
 L’applicazione deve offrire la funzionalità di generazione dei test su una data classe Java usando il Robot Randoop. Tale funzionalità riceverà in input un file di testo (classe da testare), dovrà lanciare il generatore ed esecutore di Test Randoop, restituendo in output il codice di casi di test generati ed i risultati dell’esecuzione. L’esito dell’esecuzione dovrà essere elaborato in maniera da estrarre da essi le informazioni rilevanti ai fini del gioco (ad esempio, la copertura del codice, etc.).
 
-## Wiki:
-https://github.com/Testing-Game-SAD-2023/T9-G13/wiki
-
 ## Guida di Utilizzo
+La seguente guida di utilizzo è relativa all'installazione su un container. Se si vuole installare il servizio su linux nel branch main è presente una guida apposita.
+
 Per installare e integrare il servizio è necessario:
-1) Effettuare il clone di questa repostitory;
-2) Eseguire lo script ./install.sh: tale script creerà tutte le directory di lavoro necessarie ed esporterà un file .jar (RandoopManager-1.0-SNAPSHOT.jar) nel repository maven locale;
-3) Importare nel proprio progetto il file .jar generato, aggiungendo alla sezione <dependencies> al file pom.xml le seguenti dipendenze:
-```
-<dependencies>
-   <dependency>
-       <groupId>org.example</groupId>
-        <artifactId>RandoopManager</artifactId
-        <version>1.0-SNAPSHOT</version>
-   </dependency>
- </dependencies>
- ```
- In alternativa, il jar può essere incluso manualmente e si troverà nella directory associata al repository locale.
+1) Effettuare il clone del questa repostitory e passare al branch main-container;
+2) Eseguire il file ./startDocker passando come argomento il percorso della repository condivisa dove si memorizzano le classi di test;
+3) Procedere con l'esecuzione allo stesso modo di quanto specificato per linux.
+
+A titolo di esempio, abbiamo incluso nel docker anche un progetto di esempio che importa il jar creato e inoltra una richiesta di prova per la classe Calcolatrice. Per eseguire tale esempio è necessario che la classe sia opportunamente memorizzata nella repository condivisa.
