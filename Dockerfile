@@ -32,7 +32,5 @@ ADD install.sh .
 RUN chmod -+x /install.sh
 RUN ./install.sh
 
-ADD background-process.sh .
-RUN chmod -+x background-process.sh
-#CMD ["./background-process.sh"]
+
 

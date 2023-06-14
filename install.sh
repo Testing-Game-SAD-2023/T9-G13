@@ -1,11 +1,11 @@
-echo "Installazione iniziale automatica del servizio Randoop"
-
-echo "------------------------------------------------"
+#!/usr/bin/env bash
+echo "Installazione iniziale automatica del servizio Randoop" 
+echo "------------------------------------------------" 
 
 ./generateRandoopProjects.sh 4 &&
 cp -r ./T9_repo_test $HOME/ &&
 mv $HOME/T9_repo_test $HOME/.T9_repo_test &&
 cd ./RandoopManager &&
-mvn clean install
+mvn clean install 
 
 echo "Fine Installazione" 
