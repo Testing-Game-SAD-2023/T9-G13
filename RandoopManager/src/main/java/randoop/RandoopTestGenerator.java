@@ -43,11 +43,7 @@ public class RandoopTestGenerator extends Thread{
 
         String separator = ":";
         String[] commands = {"/bin/bash","-c",""};
-        if(System.getProperty("os.name").startsWith("Windows")){
-            separator = ";";
-            commands[0] = "";
-            commands[1] = "";
-        }
+
 
         String cmd = "cd " + PROJECT_DIR + " && mvn compile && java -classpath "
 				+ "../randoop-all-4.3.2.jar"
