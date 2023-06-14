@@ -7,7 +7,7 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Maven
-ARG MAVEN_VERSION=3.6.3
+ARG MAVEN_VERSION=3.9.2
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 RUN wget ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
@@ -17,11 +17,13 @@ RUN wget ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
 
 ENV MAVEN_HOME /opt/apache-maven-${MAVEN_VERSION}
 ENV PATH="$MAVEN_HOME/bin:$PATH"
+ 
 
 WORKDIR .
 
 ADD ./RandoopManager ./RandoopManager
-
+ADD ./T9_repo_test ./T9_repo_test
+ADD ./randoop-all-4.3.2.jar .
 ADD generateRandoopProjects.sh .
 RUN chmod -+x generateRandoopProjects.sh
 
@@ -31,4 +33,4 @@ RUN ./install.sh
 
 ADD background-process.sh .
 RUN chmod -+x background-process.sh
-CMD ["./background-process.sh"]
+#CMD ["./background-process.sh"]
