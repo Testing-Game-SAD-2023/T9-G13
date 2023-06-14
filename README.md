@@ -16,7 +16,7 @@ La seguente guida di utilizzo è relativa all'installazione su un container. Se 
 
 Per installare e integrare il servizio è necessario:
 1) Effettuare il clone del questa repostitory e passare al branch main-container;
-2) Eseguire il file ./startDocker passando come argomento il percorso della repository condivisa dove si memorizzano le classi di test;
+2) Eseguire il file ./startDocker.sh su Mac o ./startDocker.bat su Windows passando come argomento il percorso della repository condivisa dove si memorizzano le classi di test;
 3) Procedere con l'esecuzione allo stesso modo di quanto specificato per linux.
 
 A titolo di esempio, abbiamo incluso nel docker anche un progetto di esempio che importa il jar creato e inoltra una richiesta di prova per la classe Calcolatrice. Per eseguire tale esempio è necessario che la classe sia opportunamente memorizzata nella repository condivisa.
