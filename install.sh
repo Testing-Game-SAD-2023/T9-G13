@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 echo "Installazione iniziale automatica del servizio Randoop" 
 echo "------------------------------------------------" 
 
