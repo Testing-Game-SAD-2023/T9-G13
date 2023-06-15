@@ -11,6 +11,10 @@
 
 L’applicazione deve offrire la funzionalità di generazione dei test su una data classe Java usando il Robot Randoop. Tale funzionalità riceverà in input un file di testo (classe da testare), dovrà lanciare il generatore ed esecutore di Test Randoop, restituendo in output il codice di casi di test generati ed i risultati dell’esecuzione. L’esito dell’esecuzione dovrà essere elaborato in maniera da estrarre da essi le informazioni rilevanti ai fini del gioco (ad esempio, la copertura del codice, etc.).
 
+Questa versione prevede un algoritmo di generazione dei test diverse da quella prevista dal branch main-container. In tale versione è stato implementato l'algoritmo che nella documentazione è etichettato come Soluzione 2. 
+
+La guida di installazione è del tutto analoga a quella del branch main-contianer.
+
 ## Guida di Installazione
 La seguente guida di utilizzo è relativa all'installazione su un container. Se si vuole installare il servizio su linux nel branch main è presente una guida apposita.
 
