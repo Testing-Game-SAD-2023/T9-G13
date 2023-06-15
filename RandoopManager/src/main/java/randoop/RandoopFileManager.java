@@ -45,9 +45,9 @@ public class RandoopFileManager {
 
 
     public void organizeLevel(int numberTest, int maxNumberLevel) throws IOException{
-        int ampiezzaIntervallo = numberTest/maxNumberLevel;
+        int ampiezzaIntervallo = numberTest/maxNumberLevel; //divido i test generati in intervalli uguali
         for(int i=1 ; i <= maxNumberLevel; i++){
-            saveTests(i, (i*ampiezzaIntervallo));
+            saveTests(i, (i*ampiezzaIntervallo)); //creo l' i-esimo livello
         }
     }
 
@@ -85,39 +85,6 @@ public class RandoopFileManager {
     }
     
 
-
-    public void selectTest(int nMaxTest, int testExceeded) throws IOException{
-
-        int ampiezzaIntervallo = Integer.max(testExceeded/nMaxTest,1);
-        int testToSave=2;
-        Random rand;
-        int dest_index = nMaxTest+1;
-        String dirName = ((dest_index <10) ? "0"+dest_index : Integer.toString(dest_index))+"Level";
-        String src = TEST_PATH_BASE + "/"+dirName+"/TestSourceCode";
-        String dest;
-        /*
-         * ampiezza = test
-         *
-         */
-        int selectedTest = 0;
-        for(int i=0 ; i < nMaxTest ; i++){
-           //k=2 numero randomico tra i*ampiezza_intervallo e (i+1)*ampiezza_intervallo-1
-            for(int j=0 ; j < testToSave ; j++){
-                rand = new Random();
-                selectedTest=i*ampiezzaIntervallo+rand.nextInt(ampiezzaIntervallo);
-                for(int k=nMaxTest; k > i ; k--){
-                    dirName =  ((k <10) ? "0"+k : Integer.toString(k))+"Level";
-                    dest = TEST_PATH_BASE + "/"+dirName+"/TestSourceCode";
-                    copyWithPattern(src, dest, "T"+selectedTest+"Test");
-                    
-                }
-            }
-        }
-        //eliminiamo la cartella in eccesso
-        FileUtils.deleteDirectory(new File(src));
-        //FileUtils.forceDelete(new File(src));
-
-    } 
     
     //svuota la cartella del progetto utilizzato per un futuro utilizzo
     public void cleanDir() throws IOException {
