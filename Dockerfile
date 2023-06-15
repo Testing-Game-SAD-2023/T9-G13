@@ -23,14 +23,14 @@ WORKDIR .
 
 ADD ./RandoopManager ./RandoopManager
 ADD ./T9_repo_test ./T9_repo_test
+ADD ./esempio	./esempio
 ADD ./randoop-all-4.3.2.jar .
 ADD generateRandoopProjects.sh .
-RUN chmod -+x generateRandoopProjects.sh
+RUN chmod -+x /generateRandoopProjects.sh
 
 ADD install.sh .
-RUN chmod -+x install.sh
+RUN chmod -+x /install.sh
 RUN ./install.sh
 
-ADD background-process.sh .
-RUN chmod -+x background-process.sh
-#CMD ["./background-process.sh"]
+
+
