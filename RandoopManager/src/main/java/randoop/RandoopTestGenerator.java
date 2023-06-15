@@ -133,7 +133,7 @@ public class RandoopTestGenerator extends Thread{
         
         //chiama selectLevel
 
-        return testForSession-1;
+        return testForSession;
     }
 
     // legge incremento del tempo ad ogni sessione

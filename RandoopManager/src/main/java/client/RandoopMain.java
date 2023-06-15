@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class RandoopMain {
-
     public static void main(String args[]){
         String className = args[0];
         int nLevels = Integer.parseInt(args[1]);
