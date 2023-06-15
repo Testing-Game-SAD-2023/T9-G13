@@ -21,7 +21,7 @@ public class RandoopTestGenerator extends Thread{
     private int threadIndex;
 
 
-    private int testExceeded;
+
 
     public RandoopTestGenerator(String className, RandoopConnector randoopConnector, int maxNumberLevel, int threadIndex, String repository_dir){
         this.randoopConnector = randoopConnector;
@@ -33,8 +33,6 @@ public class RandoopTestGenerator extends Thread{
         PROJECT_DIR = START_DIR + "/project_"+threadIndex;
         TEST_DIR = PROJECT_DIR + "/src/test/java";
 
-
-        testExceeded=0;
     }
 
     private void randoop(int timeLimit, String nomeRegr, String nomeErr, int seed) throws IOException, InterruptedException,URISyntaxException {
@@ -67,13 +65,19 @@ public class RandoopTestGenerator extends Thread{
 
     private int runTest(RandoopFileManager fileManager) throws IOException, InterruptedException,URISyntaxException{
         int i = 0;
-        int testForSession = 0;
-        int dirNum = 1;
+
+
+        int testForSession = 0;     //non ha senso
+
+
+
         double coverage = 0;
         double oldCoverage = 0;
         //maxTestForSession: numero di esecuzioni di randoop per un singolo livello
-        int maxTestForSession = 2; //da definire
+        int maxTestForSession = 5; //da definire    
         //IMAX - parametro per la saturazione: determina il numero di test generati con la stessa copertura che determina la condizione di uscita
+        
+        
         int I_MAX = 5; //da definire
         // DELTA - parametro per la saturazione: detrmina quando due coperture possono ritenersi equivalenti
         double DELTA = 0.05; //da definire
@@ -81,24 +85,20 @@ public class RandoopTestGenerator extends Thread{
         int time = 5;
 
         boolean newIteration = true; //variabile booleana che determina quando l'algoritmo termina
-        boolean exceedingLevels = false;
+       
 
         // variaibili per la valutazione della copertura
         int inst_missed=0, inst_covered=0;
         String[] result ={"",""};
 
         while (newIteration) {
-            String nomeErr = "ErrorL" + dirNum + "T" + testForSession + "Test";
-            String nomeRegr = "RegressionL" + dirNum + "T" + testForSession + "Test";
+            String nomeErr = "ErrorT" + testForSession + "Test"; //non ha senso dirNum
+            String nomeRegr = "RegressionT" + testForSession + "Test";
 
             //metodo wrapper per la chiamata a randoop
             randoop(time, nomeRegr, nomeErr, new Random().nextInt(100) + 1);
 
-            if(!exceedingLevels) {
-                testForSession = (testForSession + 1) % maxTestForSession;
-            }else{
-                testForSession+=1;
-            }
+            testForSession++; //incremento 
 
             //calcolo della copertura
             String line = "";
@@ -127,21 +127,13 @@ public class RandoopTestGenerator extends Thread{
             //se siamo alla fine della sessione o non faremo altre iterazioni, salva i test finora
             if ((testForSession % maxTestForSession == 0)|| !newIteration) {
                 time = incrementTime(time);
-                if(dirNum <= maxNumberLevel) {
-                    fileManager.saveTests(dirNum, true);
-                    dirNum++;
-                }
-                else {
-                    exceedingLevels = true;
-                    fileManager.saveTests(maxNumberLevel+1, false);
-                }
 
             }
         }
         
-        if(exceedingLevels)
-            testExceeded=testForSession;
-        return dirNum-1;
+        //chiama selectLevel
+
+        return testForSession-1;
     }
 
     // legge incremento del tempo ad ogni sessione
@@ -161,13 +153,13 @@ public class RandoopTestGenerator extends Thread{
         try {
             RandoopFileManager fileManager = new RandoopFileManager(REPOSITORY_DIR, PROJECT_DIR, INPUT_CLASSNAME);
             fileManager.initTest();
-            int nLevel = runTest(fileManager);
-            if(testExceeded!=0){ //la funzione selectTest viene chiamata solo sono sttai generati test in eccesso
-                //System.out.println("TEST EXCEEDED "+testExceeded);
-                fileManager.selectTest(maxNumberLevel,testExceeded);
-            }
+            int nTest = runTest(fileManager);
+            
+            //chiama select Level
+            fileManager.organizeLevel(nTest, maxNumberLevel);
+
             fileManager.cleanDir();
-            randoopConnector.operationCompleted(nLevel,INPUT_CLASSNAME,threadIndex);
+            randoopConnector.operationCompleted(maxNumberLevel, INPUT_CLASSNAME,threadIndex);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -42,7 +42,17 @@ public class RandoopFileManager {
         }
     }
 
-    public void saveTests(int dirNum, boolean savePrev) throws IOException {
+
+
+    public void organizeLevel(int numberTest, int maxNumberLevel) throws IOException{
+        int ampiezzaIntervallo = numberTest/maxNumberLevel;
+        for(int i=1 ; i <= maxNumberLevel; i++){
+            saveTests(i, (i*ampiezzaIntervallo));
+        }
+    }
+
+
+    public void saveTests(int dirNum, int nLevel) throws IOException {
         String dirName = ((dirNum <10) ? "0"+dirNum : Integer.toString(dirNum))+"Level";
         String sessionDir = TEST_PATH_BASE + "/"+dirName+"/TestSourceCode";
         Path sessionDirPath = Paths.get(sessionDir);
@@ -50,19 +60,10 @@ public class RandoopFileManager {
 
 
 
-
-        //due possibili comportamenti
-        //  1) qunado savePrev == true inseriamo nel livello dirNum tutti i file generati fino a quel momemento
-        //  2) quando savePrev == false inseriamo nel livello dirNum solo i file generati per lo specifico livello
-        if( savePrev){
-            for(int i=1 ; i  <= dirNum ; i++){
-                copyWithPattern(TEST_DIR,sessionDir,"L"+i);
-            }
-        }else{
-            copyWithPattern(TEST_DIR,sessionDir,"L"+dirNum);
+        for(int i=0 ; i  <= nLevel ; i++){
+            copyWithPattern(TEST_DIR,sessionDir,"T"+i);
         }
-
-        
+              
     }
 
     public void initTest() throws IOException {
