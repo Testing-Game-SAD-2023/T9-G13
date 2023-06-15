@@ -64,20 +64,18 @@ public class RandoopTestGenerator extends Thread{
     }
 
     private int runTest(RandoopFileManager fileManager) throws IOException, InterruptedException,URISyntaxException{
+        
+
+
+        int testForSession = 0;     //numero di testsuite generate
+
+        //variabili per gestire la saturazione della copertura
         int i = 0;
-
-
-        int testForSession = 0;     //non ha senso
-
-
-
         double coverage = 0;
         double oldCoverage = 0;
-        //maxTestForSession: numero di esecuzioni di randoop per un singolo livello
-        int maxTestForSession = 5; //da definire    
-        //IMAX - parametro per la saturazione: determina il numero di test generati con la stessa copertura che determina la condizione di uscita
-        
-        
+        //maxTestForSession: numero di esecuzioni di randoop con i stessi parametri di configurazione
+        int maxTestForSession = 2; //da definire    
+        //IMAX - parametro per la saturazione: determina il numero di test generati con la stessa copertura che determina la condizione di uscita  
         int I_MAX = 5; //da definire
         // DELTA - parametro per la saturazione: detrmina quando due coperture possono ritenersi equivalenti
         double DELTA = 0.05; //da definire

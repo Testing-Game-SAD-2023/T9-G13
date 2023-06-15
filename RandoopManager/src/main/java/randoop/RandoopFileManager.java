@@ -45,9 +45,18 @@ public class RandoopFileManager {
 
 
     public void organizeLevel(int numberTest, int maxNumberLevel) throws IOException{
-        int ampiezzaIntervallo = numberTest/maxNumberLevel; //divido i test generati in intervalli uguali
-        for(int i=1 ; i <= maxNumberLevel; i++){
-            saveTests(i, (i*ampiezzaIntervallo)); //creo l' i-esimo livello
+        if(numberTest>=maxNumberLevel){
+            int ampiezzaIntervallo = numberTest/maxNumberLevel; //divido le test-suite generate in intervalli uguali
+            for(int i=1 ; i < maxNumberLevel; i++){
+                saveTests(i, (i*ampiezzaIntervallo)); //creo l' i-esimo livello
+            }
+            saveTests(maxNumberLevel, numberTest);  //nell'ultimo livello salvo tutte le test-suite
+            
+            
+        }else{
+            for(int i=0 ; i < maxNumberLevel ; i++){
+                saveTests((maxNumberLevel-i), Integer.max(numberTest-i,0)); 
+            }
         }
     }
 
