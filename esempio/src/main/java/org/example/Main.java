@@ -10,7 +10,7 @@ public class Main implements IObserver {
     public static void main(String[] args) {
         Main main = new Main();
 
-        String path = System.getProperty("user.home") + args[0];
+        String path = System.getProperty("user.home") + "/repo";
 
         RandoopConnector conn = RandoopConnector.getInstance();
         conn.setRepositoryDir(path);
