@@ -4,47 +4,34 @@ import exceptions.RandoopException;
 import interfaces.IObserver;
 import interfaces.IRandoopConnector;
 import randoop.RandoopConnector;
-
-import java.io.FileWriter;
-import java.io.IOException;
-
+import java.io.File;
 public class Main implements IObserver {
 
     public static void main(String[] args) {
-        /*Main main = new Main();
-        IRandoopConnector randoopConnector = RandoopConnector.getInstance();
-        try {
-            randoopConnector.generateRandoopTest("Calcolatrice", 2, main);
-        }catch (RandoopException e){
-            e.printStackTrace();
-            System.out.println("ERROR CODE: "+e.getERROR_TYPE());
-        }
-*/
-        String className = args[0];
-        int nLevels = Integer.parseInt(args[1]);
-        System.out.println("Ricevuta richiesta per classe=<" + className + ">, numero di livelli=<" + nLevels + ">");
-        RandoopConnector randoopConnector = RandoopConnector.getInstance();
-        randoopConnector.setRepositoryDir("/Users/rosariaritacanale/.T9_repo_test");
+        Main main = new Main();
 
-        IObserver observer = new Main();
-        try {
-            randoopConnector.generateRandoopTest(className, nLevels, observer);
-        } catch (RandoopException e) {
-            //write to log file
-            String errorMessage = "RandoopException: " + e.getMessage() + "\t error code: " + e.getERROR_TYPE();
+        String path = System.getProperty("user.home") + "/repo";
+
+        RandoopConnector conn = RandoopConnector.getInstance();
+        conn.setRepositoryDir(path);
+
+        IRandoopConnector randoopConnector = RandoopConnector.getInstance();
+
+        File currentDir = new File(path);
+
+        File[] folders = currentDir.listFiles(File::isDirectory);
+
+        for (File folder : folders) {
             try {
-                String logFilePath = "/Users/rosariaritacanale/Desktop/log.txt";
-                FileWriter file = new FileWriter(logFilePath, true); //true così scrive in append
-                file.write(errorMessage);
-                file.close();
-            } catch (IOException e1) {
-                System.out.println("UNABLE TO WRITE LOG FILE. Error message was:");
-                System.out.println(errorMessage);
-                e1.printStackTrace();
+                randoopConnector.generateRandoopTest(folder.getName(), 3, main);
+            }catch (RandoopException e){
+                e.printStackTrace();
+                System.out.println("ERROR CODE: "+e.getERROR_TYPE());
             }
         }
     }
 
+    @Override
     public void notifyCompleted(int i) {
         System.out.println("N LEVELS COMPLETED: ="+i);
     }
