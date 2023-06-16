@@ -27,3 +27,13 @@ Se si esegue su linux, è sufficiente seguire i seguenti passi per installare e 
 2) Eseguire lo script `./install.sh`
 
 A titolo di esempio, abbiamo incluso anche un progetto di esempio che importa il jar creato e inoltra una richiesta di prova per le classi che inizialmente sono presenti nella directory condivisa.
+Al fine di eseguire il main di tale progetto è necessario spostarsi all'interno del container nella directory `esempio` ed eseguire i seguenti comandi:
+
+``
+mvn compile
+``
+
+``
+mvn exec:java -Dexec.mainClass="org.example.Main"
+``
+
