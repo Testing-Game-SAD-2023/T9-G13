@@ -11,12 +11,20 @@
 
 L’applicazione deve offrire la funzionalità di generazione dei test su una data classe Java usando il Robot Randoop. Tale funzionalità riceverà in input un file di testo (classe da testare), dovrà lanciare il generatore ed esecutore di Test Randoop, restituendo in output il codice di casi di test generati ed i risultati dell’esecuzione. L’esito dell’esecuzione dovrà essere elaborato in maniera da estrarre da essi le informazioni rilevanti ai fini del gioco (ad esempio, la copertura del codice, etc.).
 
-## Guida di Installazione
-La seguente guida di utilizzo è relativa all'installazione su un container. Se si vuole installare il servizio su linux nel branch main è presente una guida apposita.
+## Versioni
+Sono state realizzate due versioni diverse della funzionalità che seguono due algoritmi di generazioni differenti. La versione in questo branch è implementa l'algoritmo originario. L'algoritmo alternativo discusso si trova nel branch main-versione-2.
 
-Per installare e integrare il servizio è necessario:
+## Guida di Installazione
+
+La seguente guida di utilizzo è relativa all'installazione su un container.
+
+Per installare e integrare su un container docker il servizio è necessario:
+1) Effettuare il clone del questa repostitory e passare al branch main-container;
+2) Eseguire il file ./startDocker.sh su Mac o ./startDocker.bat su Windows passando come argomento il percorso della repository condivisa dove si memorizzano le classi di test.
+
+Se si esegue su linux, è sufficiente seguire i seguenti passi per installare e integrare il servizio:
 1) Effettuare il clone del questa repostitory e passare al branch main-container;
 2) Eseguire il file ./startDocker.sh su Mac o ./startDocker.bat su Windows passando come argomento il percorso della repository condivisa dove si memorizzano le classi di test;
 3) Procedere con l'esecuzione allo stesso modo di quanto specificato per linux.
 
-A titolo di esempio, abbiamo incluso nel docker anche un progetto di esempio che importa il jar creato e inoltra una richiesta di prova per la classe Calcolatrice. Per eseguire tale esempio è necessario che la classe sia opportunamente memorizzata nella repository condivisa.
+A titolo di esempio, abbiamo incluso anche un progetto di esempio che importa il jar creato e inoltra una richiesta di prova per le classi che inizialmente sono presenti nella directory condivisa.
