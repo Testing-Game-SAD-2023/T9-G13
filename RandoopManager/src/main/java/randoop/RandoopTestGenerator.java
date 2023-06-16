@@ -79,7 +79,7 @@ public class RandoopTestGenerator extends Thread{
         int I_MAX = 5; //da definire
         // DELTA - parametro per la saturazione: detrmina quando due coperture possono ritenersi equivalenti
         double DELTA = 0.05; //da definire
-        //time: tempo in secondida cui parte randoop
+        //time: tempo in secondi da cui parte randoop
         int time = 5;
 
         boolean newIteration = true; //variabile booleana che determina quando l'algoritmo termina
@@ -122,14 +122,12 @@ public class RandoopTestGenerator extends Thread{
 
             newIteration = (coverage <= 0.95) && (i < I_MAX - 1);
 
-            //se siamo alla fine della sessione o non faremo altre iterazioni, salva i test finora
-            if ((testForSession % maxTestForSession == 0)|| !newIteration) {
+            //se siamo alla fine della sessione incrementa il tempo
+            if ((testForSession % maxTestForSession == 0)) {
                 time = incrementTime(time);
 
             }
         }
-        
-        //chiama selectLevel
 
         return testForSession;
     }
@@ -153,7 +151,7 @@ public class RandoopTestGenerator extends Thread{
             fileManager.initTest();
             int nTest = runTest(fileManager);
             
-            //chiama select Level
+            //chiama organize Level
             fileManager.organizeLevel(nTest, maxNumberLevel);
 
             fileManager.cleanDir();
