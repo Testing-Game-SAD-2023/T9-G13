@@ -55,6 +55,7 @@ public class RandoopConnector implements IRandoopConnector{
             observers.put(className, o);
             execRandoopTest(className, maxNumberLevel);
         }catch (IOException | InterruptedException e){
+
             e.printStackTrace();
         }
     }

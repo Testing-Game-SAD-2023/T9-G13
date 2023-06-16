@@ -158,18 +158,27 @@ public class RandoopTestGenerator extends Thread{
 
     //metodo chiamato dal thread 
     public void run(){
-        try {
-            RandoopFileManager fileManager = new RandoopFileManager(REPOSITORY_DIR, PROJECT_DIR, INPUT_CLASSNAME);
+        RandoopFileManager fileManager = new RandoopFileManager(REPOSITORY_DIR, PROJECT_DIR, INPUT_CLASSNAME);
+        int nLevel = 0;
+        try {           
             fileManager.initTest();
-            int nLevel = runTest(fileManager);
+            nLevel = runTest(fileManager);
             if(testExceeded!=0){ //la funzione selectTest viene chiamata solo sono sttai generati test in eccesso
                 //System.out.println("TEST EXCEEDED "+testExceeded);
                 fileManager.selectTest(maxNumberLevel,testExceeded);
             }
-            fileManager.cleanDir();
-            randoopConnector.operationCompleted(nLevel,INPUT_CLASSNAME,threadIndex);
+
         }catch (Exception e){
             e.printStackTrace();
+            nLevel=0;
         }
+        
+        try {
+            fileManager.cleanDir();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        randoopConnector.operationCompleted(nLevel,INPUT_CLASSNAME,threadIndex);
     }
 }
