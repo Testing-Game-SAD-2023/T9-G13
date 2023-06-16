@@ -146,18 +146,28 @@ public class RandoopTestGenerator extends Thread{
 
     //metodo chiamato dal thread 
     public void run(){
+        RandoopFileManager fileManager = new RandoopFileManager(REPOSITORY_DIR, PROJECT_DIR, INPUT_CLASSNAME);
+        int nTest = 0;
+        int nLevel = 0;
         try {
-            RandoopFileManager fileManager = new RandoopFileManager(REPOSITORY_DIR, PROJECT_DIR, INPUT_CLASSNAME);
+            
             fileManager.initTest();
-            int nTest = runTest(fileManager);
+            nTest = runTest(fileManager);
             
             //chiama organize Level
             fileManager.organizeLevel(nTest, maxNumberLevel);
+            nLevel = maxNumberLevel;
 
-            fileManager.cleanDir();
-            randoopConnector.operationCompleted(maxNumberLevel, INPUT_CLASSNAME,threadIndex);
         }catch (Exception e){
             e.printStackTrace();
+            nLevel = 0;
         }
+        try {
+            fileManager.cleanDir();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        randoopConnector.operationCompleted(nLevel,INPUT_CLASSNAME,threadIndex);
     }
 }
